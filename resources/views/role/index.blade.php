@@ -34,9 +34,10 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('jquery') }}/jquery.min.js"></script>
+    {{-- <script src="{{ asset('jquery') }}/jquery.min.js"></script> --}}
     <script>
         $(document).ready(function() {
+            // console.log("tes");
             $('#table1').DataTable({
                 responsive: true,
                 processing: true,
