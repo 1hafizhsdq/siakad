@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\RoleController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Modul Role
+Route::resource('/role', RoleController::class);
+Route::get('/role-list', [RoleController::class, 'list'])->name('role-list');
