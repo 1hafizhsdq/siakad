@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{asset('datatables')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.css">
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.css">
+    {{-- choices js --}}
+    <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/choices.js/public/assets/styles/choices.css">
+    {{-- select2 --}}
+    <link rel="stylesheet" href="{{ asset('select2') }}/dist/css/select2.min.css">
     @stack('css')
 </head>
 
@@ -168,8 +172,18 @@
     <script src="{{asset('datatables')}}/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script src="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.js"></script>
     <script src="{{ asset('dist') }}/assets/static/js/pages/toastify.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>>
-    <script src="{{ asset('dist') }}/assets/static/js/pages/sweetalert2.js"></script>>
+    <script src="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+    <script src="{{ asset('dist') }}/assets/static/js/pages/sweetalert2.js"></script>
+    {{-- choices js --}}
+    <script src="{{ asset('dist') }}/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+    <script src="{{ asset('dist') }}/assets/static/js/pages/form-element-select.js"></script>
+    {{-- select2 --}}
+    <script src="{{ asset('select2') }}/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
     @stack('script')
 </body>
 

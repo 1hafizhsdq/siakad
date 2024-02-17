@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Modul Role
 Route::resource('/role', RoleController::class);
 Route::get('/role-list', [RoleController::class, 'list'])->name('role-list');
+
+// Modul Menu
+Route::resource('/menu', MenuController::class);
+Route::get('/menu-list', [MenuController::class, 'list'])->name('menu-list');

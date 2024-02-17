@@ -12,4 +12,15 @@ class Menu extends Model
     use HasFactory;
 
     protected $dates = ['deleted_at'];
+    protected $guarded = [];
+
+    public function parent()
+    {
+        return $this->belongsTo(Menu::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Menu::class, 'parent_id');
+    }
 }
