@@ -17,14 +17,18 @@ class RoleController extends Controller
     }
 
     public function list(){
-        $data = Role::get();
+        $data = Role::orderBy('id','desc')->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data"><i class="fa fa-pencil-alt"></i></a>
-                    <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data"><i class="fa fa-trash"></i></a>
+                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data">
+                        <i class="bi bi-trash"></i>
+                    </a>
                 ';
             })
             ->rawColumns(['aksi'])
@@ -79,7 +83,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        Role::where('id',$role)->delete();
+        Role::find($role)->each->delete();
         return response()->json(['success' => 'Berhasil menghapus data']);
     }
 }

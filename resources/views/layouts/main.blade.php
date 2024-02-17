@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="{{asset('datatables')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="{{asset('datatables')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="{{asset('datatables')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.css">
+    <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.css">
     @stack('css')
 </head>
 
@@ -147,6 +149,7 @@
     </div>
 
     <script src="{{asset('jquery')}}/jquery.min.js"></script>
+    <script src="{{asset('js')}}/toast.js"></script>
     <script src="{{ asset('dist') }}/assets/static/js/components/dark.js"></script>
     <script src="{{ asset('dist') }}/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js">
     </script>
@@ -163,6 +166,10 @@
     <script src="{{asset('datatables')}}/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="{{asset('datatables')}}/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="{{asset('datatables')}}/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.js"></script>
+    <script src="{{ asset('dist') }}/assets/static/js/pages/toastify.js"></script>
+    <script src="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.js"></script>>
+    <script src="{{ asset('dist') }}/assets/static/js/pages/sweetalert2.js"></script>>
     @stack('script')
 </body>
 
