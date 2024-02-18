@@ -13,4 +13,8 @@ class Role extends Model
 
     protected $dates = ['deleted_at'];
     protected $guarded = [];
+
+    public function rolemenu(){
+        return $this->hasMany(RoleMenu::class, 'role_id');
+    }
 }

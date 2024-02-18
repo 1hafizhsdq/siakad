@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RoleMenuController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,9 @@ Route::get('/role-list', [RoleController::class, 'list'])->name('role-list');
 // Modul Menu
 Route::resource('/menu', MenuController::class);
 Route::get('/menu-list', [MenuController::class, 'list'])->name('menu-list');
+
+// modul Role Menu
+Route::get('/role-menu', [RoleMenuController::class, 'index'])->name('role-menu');
+Route::get('/role-menu-list', [RoleMenuController::class, 'list'])->name('role-menu-list');
+Route::get('/role-menu-status/{menuid}', [RoleMenuController::class, 'status'])->name('role-menu-status');
+Route::post('/role-menu-store', [RoleMenuController::class, 'store'])->name('role-menu-store');
