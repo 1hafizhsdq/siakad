@@ -116,17 +116,18 @@
                 url: "/role-menu-status/"+menuid,
                 type: 'GET',
                 success: function(result) {
-                    console.log(result);
                     $('#rolemenu').html('');
                     var rolemenu = '';
+                    var selected = '';
                     $.each(result, function (key, val) {
                         $.each(val.rolemenu, function (k, v) {
                             if(v.menu_id == menuid){
-                                selected = 'selected';
-                            }else{
-                                selected = '';
+                                if(v.is_active == 1){
+                                    selected = 'checked';
+                                }else{
+                                    selected = '';
+                                }
                             }
-                            console.log(selected);
                         });
 
                         rolemenu += `
@@ -135,6 +136,7 @@
                                 <label class="form-check-label" for="flexSwitchCheckDefault">`+ val.role +`</label>
                             </div>
                         `;
+
                     });
                     $('#rolemenu').html(rolemenu);
                     $('#menu_id').val(menuid);
