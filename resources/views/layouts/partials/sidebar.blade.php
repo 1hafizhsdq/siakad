@@ -41,24 +41,33 @@
     </div>
     <div class="sidebar-menu">
         <ul class="menu">
-            <li class="sidebar-title">Menu</li>
-            <li class="sidebar-item  active">
-                <a href="index.html" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
-                    <i class="bi bi-stack"></i>
-                    <span>Data Master</span>
-                </a>
-                <ul class="submenu ">
-                    <li class="submenu-item  ">
-                        <a href="component-accordion.html" class="submenu-link">Role</a>
+            <li class="sidebar-title">Menu {{ Auth::user()->role_id }}</li>
+            @foreach ($menus as $menu)
+                @if ($menu->menu->children->count() < 1)
+                    <li class="sidebar-item {{ ($menu->menu->menu == $title) ? 'active' : '' }}">
+                        <a href="{{ $menu->menu->url }}" class='sidebar-link'>
+                            {!! $menu->menu->icon !!}
+                            <span>{{ $menu->menu->menu }}</span>
+                        </a>
                     </li>
-                </ul>
-            </li>
+                @else
+                    <li class="sidebar-item has-sub">
+                        <a href="{{ $menu->menu->url }}" class='sidebar-link'>
+                            {!! $menu->menu->icon !!}
+                            <span>{{ $menu->menu->menu }}</span>
+                        </a>
+                        <ul class="submenu ">
+                            @foreach ($childMenus as $childmenu)
+                                @if ($menu->menu->id == $childmenu->menu->parent_id)
+                                    <li class="submenu-item  {{ ($childmenu->menu->menu == $title) ? 'active' : '' }}">
+                                        <a href="{{ $childmenu->menu->url }}" class="submenu-link">{{ $childmenu->menu->menu }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </li>
+                @endif
+            @endforeach
         </ul>
     </div>
 </div>
