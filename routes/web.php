@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
@@ -38,4 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/role-menu-list', [RoleMenuController::class, 'list'])->name('role-menu-list');
     Route::get('/role-menu-status/{menuid}', [RoleMenuController::class, 'status'])->name('role-menu-status');
     Route::post('/role-menu-store', [RoleMenuController::class, 'store'])->name('role-menu-store');
+
+    // Modul Fakultas
+    Route::resource('/fakultas', FakultasController::class);
+    Route::get('/fakultas-list', [FakultasController::class, 'list'])->name('fakultas-list');
 });
