@@ -36,7 +36,7 @@
                     </span>
                 @enderror
                 <div class="form-group position-relative has-icon-left mb-4">
-                    <input type="text" class="form-control form-control-xl @error('email') is-invalid @enderror" placeholder="email" name="email" value="{{ old('email') }}">
+                    <input type="text" class="form-control form-control-xl @error('email') is-invalid @enderror" placeholder="Email / Telp / NIM / NIP" name="email" value="{{ old('email') }}">
                     <div class="form-control-icon">
                         <i class="bi bi-person"></i>
                     </div>
