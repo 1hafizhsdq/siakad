@@ -41,7 +41,7 @@
     </div>
     <div class="sidebar-menu">
         <ul class="menu">
-            <li class="sidebar-title">Menu {{ Auth::user()->role_id }}</li>
+            <li class="sidebar-title">Menu</li>
             @foreach ($menus as $menu)
                 @if ($menu->menu->children->count() < 1)
                     <li class="sidebar-item {{ ($menu->menu->menu == $title) ? 'active' : '' }}">
