@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
 use App\Http\Controllers\RuanganController;
@@ -53,4 +54,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Ruangan
     Route::resource('/tahun-ajaran', TahunAjaranController::class);
     Route::get('/tahun-ajaran-list', [TahunAjaranController::class, 'list'])->name('tahun-ajaran-list');
+    
+    // Modul Prodi
+    Route::resource('/prodi', ProdiController::class);
+    Route::get('/prodi-list', [ProdiController::class, 'list'])->name('prodi-list');
 });
