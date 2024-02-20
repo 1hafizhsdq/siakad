@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Data Ruangan
+                    Data Tahun Ajaran
                 </h5>
             </div>
             <div class="card-body">
@@ -22,8 +22,8 @@
                     <thead>
                         <tr>
                             <th width="15%">No.</th>
-                            <th>Nama Ruangan</th>
-                            <th>Kapasitas</th>
+                            <th>Tahun Ajaran</th>
+                            <th>Semester</th>
                             <th width="15%">
                                 <button id="add" class="btn btn-xs btn-primary addData" title="Tambah Data">
                                     <i class="bi bi-plus"></i> Add Data
@@ -35,7 +35,7 @@
             </div>
         </div>
     </section>
-    @includeIf('ruangan.modal')
+    @includeIf('tahun_ajaran.modal')
 </div>
 @endsection
 
@@ -48,17 +48,17 @@
                 serverSide: true,
                 paging: false,
                 ajax: {
-                    url: 'ruangan-list',
+                    url: 'tahun-ajaran-list',
                 },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'text-center'
                     },
                     {
-                        data: 'nama_ruangan'
+                        data: 'nama_tahun_ajaran'
                     },
                     {
-                        data: 'kapasitas'
+                        data: 'semester'
                     },
                     {
                         data: 'aksi',
@@ -86,7 +86,7 @@
                     }
                 });
                 $.ajax({
-                    url: "/ruangan",
+                    url: "/tahun-ajaran",
                     type: 'POST',
                     data: data,
                     success: function (result) {
@@ -113,13 +113,13 @@
             });
         }).on('click','.editData',function(){
             $.ajax({
-                url: "/ruangan/"+$(this).data('id')+"/edit",
+                url: "/tahun-ajaran/"+$(this).data('id')+"/edit",
                 type: 'GET',
                 success: function(result) {
                     $('#id').val(result.id);
-                    $('#nama_ruangan').val(result.nama_ruangan);
-                    $('#kapasitas').val(result.kapasitas);
-                    $('#modal-title').html('Edit Data Ruangan');
+                    $('#nama_tahun_ajaran').val(result.nama_tahun_ajaran);
+                    $('#semester').val(result.semester);
+                    $('#modal-title').html('Edit Data Semester');
                     $('#modal').modal('show');
                 }
             });
@@ -139,7 +139,7 @@
                         }
                     });
                     $.ajax({
-                        url: "/ruangan/"+$(this).data('id'),
+                        url: "/tahun-ajaran/"+$(this).data('id'),
                         type: 'DELETE',
                         data: {
                             "_token":'{{ csrf_token() }}',

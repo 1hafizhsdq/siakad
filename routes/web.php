@@ -5,6 +5,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
 use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\TahunAjaranController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -48,4 +49,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Ruangan
     Route::resource('/ruangan', RuanganController::class);
     Route::get('/ruangan-list', [RuanganController::class, 'list'])->name('ruangan-list');
+    
+    // Modul Ruangan
+    Route::resource('/tahun-ajaran', TahunAjaranController::class);
+    Route::get('/tahun-ajaran-list', [TahunAjaranController::class, 'list'])->name('tahun-ajaran-list');
 });
