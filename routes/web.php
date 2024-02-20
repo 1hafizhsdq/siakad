@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RoleController;
@@ -58,4 +59,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Prodi
     Route::resource('/prodi', ProdiController::class);
     Route::get('/prodi-list', [ProdiController::class, 'list'])->name('prodi-list');
+    
+    // Modul Matkul
+    Route::resource('/matkul', MatkulController::class);
+    Route::get('/matkul-list', [MatkulController::class, 'list'])->name('matkul-list');
 });
