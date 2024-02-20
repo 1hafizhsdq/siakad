@@ -181,6 +181,25 @@
         $(document).ready(function () {
             $('.select2').select2();
         });
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (
+                (charCode >= 48 && charCode <= 57) ||
+                charCode === 46 ||
+                charCode === 8 ||
+                charCode === 46 ||
+                charCode === 37 ||
+                charCode === 39
+            ) {
+                if (charCode === 46 && evt.target.value.indexOf('.') !== -1) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        }
     </script>
     @stack('script')
 </body>

@@ -4,6 +4,7 @@ use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
+use App\Http\Controllers\RuanganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Fakultas
     Route::resource('/fakultas', FakultasController::class);
     Route::get('/fakultas-list', [FakultasController::class, 'list'])->name('fakultas-list');
+    
+    // Modul Ruangan
+    Route::resource('/ruangan', RuanganController::class);
+    Route::get('/ruangan-list', [RuanganController::class, 'list'])->name('ruangan-list');
 });
