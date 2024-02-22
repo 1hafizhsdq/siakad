@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,16 @@ class HomeController extends Controller
     public function index()
     {
         $data['title'] = 'Dashboard';
+        $data['user'] = User::with('pendaftaran','biodatamahasiswa')
+            ->where('id', Auth::user()->id)
+            ->first();
+        // dd($data['user']);
+        if($data['user']->pendaftaran->isEmpty()){
+            return view('dashboard.calon-mahasiswa',$data);
+        }else{
+            dd('ada');
+        }
+
         return view('dashboard.index',$data);
     }
 }

@@ -43,4 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function biodatamahasiswa(){
+        return $this->hasOne(BiodataMahasiswa::class, 'user_id');
+    }
+    
+    public function pendaftaran(){
+        return $this->hasMany(Pendaftaran::class, 'user_id');
+    }
 }
