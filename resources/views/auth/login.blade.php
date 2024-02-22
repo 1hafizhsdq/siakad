@@ -61,7 +61,7 @@
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">Log in</button>
             </form>
             <div class="text-center mt-5 text-lg fs-4">
-                <p class="text-gray-600">Pendaftaran Mahasiswa Baru? <a href="{{ route('register') }}" class="font-bold">Daftar disini</a>.</p>
+                <p class="text-gray-600">Belum memiliki akun? <a href="{{ route('register') }}" class="font-bold">Register disini</a>.</p>
                 <p>
                     @if (Route::has('password.request'))
                         <a class="font-bold" href="{{ route('password.request') }}">Lupa password?</a>
