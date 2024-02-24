@@ -29,7 +29,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     
     // Modul Role
     Route::resource('/role', RoleController::class);
@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/ruangan', RuanganController::class);
     Route::get('/ruangan-list', [RuanganController::class, 'list'])->name('ruangan-list');
     
-    // Modul Ruangan
+    // Modul Tahun Ajaran
     Route::resource('/tahun-ajaran', TahunAjaranController::class);
     Route::get('/tahun-ajaran-list', [TahunAjaranController::class, 'list'])->name('tahun-ajaran-list');
     

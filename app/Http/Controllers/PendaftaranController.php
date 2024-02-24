@@ -4,31 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\BiodataMahasiswa;
 use App\Models\Pendaftaran;
+use App\Models\Prodi;
+use App\Models\TahunAjaran;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PendaftaranController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $data['title'] = 'Pendaftaran';
+        $data['user'] = User::with('pendaftaran','biodatamahasiswa')
+            ->where('id', Auth::user()->id)
+            ->first();
+
+        if($data['user']->pendaftaran->isEmpty()){
+            $data['prodi'] = Prodi::get();
+            $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
+            $data['is_regis'] = false;
+        }else{
+            $data['is_regis'] = true;
+        }
+
+        return view('pendaftaran.calon-mahasiswa',$data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -74,7 +81,6 @@ class PendaftaranController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
-        // dd($request->all());
         
         if ($request->hasfile('file')) {
             $filename = round(microtime(true) * 1000).'-'.$request->no_ijazah. '.' . $request->file->extension();
@@ -131,33 +137,21 @@ class PendaftaranController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
