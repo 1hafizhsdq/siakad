@@ -10,14 +10,14 @@ use Illuminate\View\View;
 class SharingComposer{
     public function compose(View $view){
         $data['menus'] = RoleMenu::with('menu.children')
-            ->where('role_id',Auth::user()->id)
+            ->where('role_id',Auth::user()->role_id)
             ->where('is_active', 1)
             ->whereHas('menu', function($q){
                 $q->whereNull('parent_id');
             })
             ->get();
         $data['childMenus'] = RoleMenu::with('menu')
-            ->where('role_id',Auth::user()->id)
+            ->where('role_id',Auth::user()->role_id)
             ->where('is_active', 1)
             ->whereHas('menu', function($q){
                 $q->whereNotNull('parent_id');
