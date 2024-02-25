@@ -7,9 +7,11 @@ use App\Models\Pendaftaran;
 use App\Models\Prodi;
 use App\Models\TahunAjaran;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class PendaftaranController extends Controller
 {
@@ -19,16 +21,56 @@ class PendaftaranController extends Controller
         $data['user'] = User::with('pendaftaran','biodatamahasiswa')
             ->where('id', Auth::user()->id)
             ->first();
+        $data['prodi'] = Prodi::get();
+        $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
 
-        if($data['user']->pendaftaran->isEmpty()){
-            $data['prodi'] = Prodi::get();
-            $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
-            $data['is_regis'] = false;
-        }else{
-            $data['is_regis'] = true;
+        if($data['user']->role_id == 5){
+            if($data['user']->pendaftaran->isEmpty()){
+                $data['is_regis'] = false;
+            }else{
+                $data['is_regis'] = true;
+            }
+    
+            return view('pendaftaran.calon-mahasiswa',$data);
+        }elseif($data['user']->role_id == 1 || $data['user']->role_id == 2){
+            return view('pendaftaran.index',$data);
         }
+    }
 
-        return view('pendaftaran.calon-mahasiswa',$data);
+    public function list($prodi = null){
+        // dd($prodi);
+        $data = Pendaftaran::with('user','prodi','tahunajaran')->orderBy('created_at');
+        if($prodi != null){
+            $data = $data->where('prodi_id',$prodi);
+        }
+        $data = $data->get();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->editColumn('nama', function ($data){
+                return $data->user->nama;
+            })
+            ->editColumn('ttl', function ($data){
+                return $data->user->tempat_lahir.', '.Carbon::parse($data->user->tgl_lahir)->isoFormat('D MMMM Y');
+            })
+            ->editColumn('prodi', function ($data){
+                return $data->prodi->nama_prodi;
+            })
+            ->editColumn('tahunajaran', function ($data){
+                return $data->tahunajaran->nama_tahun_ajaran.' '.$data->tahunajaran->semester;
+            })
+            ->addColumn('aksi', function ($data) {
+                return '
+                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     public function create()
