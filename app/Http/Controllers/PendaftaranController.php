@@ -38,7 +38,6 @@ class PendaftaranController extends Controller
     }
 
     public function list($prodi = null){
-        // dd($prodi);
         $data = Pendaftaran::with('user','prodi','tahunajaran')->orderBy('created_at');
         if($prodi != null){
             $data = $data->where('prodi_id',$prodi);
@@ -61,11 +60,14 @@ class PendaftaranController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
-                        <i class="bi bi-pencil-square"></i>
+                    <a href="javascript:void(0)" id="btn-detail" data-id="'.$data->id.'" class="btn btn-xs btn-warning detailData" title="Detail Data">
+                        <i class="bi bi-eye"></i>
                     </a>
-                    <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data">
-                        <i class="bi bi-trash"></i>
+                    <a href="javascript:void(0)" id="btn-accept" data-id="'.$data->id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
+                        <i class="bi bi-check"></i>
+                    </a>
+                    <a href="javascript:void(0)" id="btn-reject" data-id="'.$data->id.'" class="btn btn-xs btn-danger rejectData" title="Tolak Data">
+                        <i class="bi bi-x"></i>
                     </a>
                 ';
             })
@@ -186,7 +188,12 @@ class PendaftaranController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $data = Pendaftaran::with('user.biodatamahasiswa','prodi')
+            ->where('id',$id)
+            ->orderBy('created_at')
+            ->first();
+        
+        return response()->json($data);
     }
 
     public function update(Request $request, string $id)

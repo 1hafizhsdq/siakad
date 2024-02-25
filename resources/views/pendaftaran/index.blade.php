@@ -431,6 +431,7 @@
             </div>
         </div>
     </section>
+    @includeIf('pendaftaran.modal')
 </div>
 @endsection
 
@@ -512,6 +513,42 @@
         }).on('change','#filter_prodi_id', function(){
             var filterprodi = ($('#filter_prodi_id').val() == '') ? '' : $('#filter_prodi_id').val();
             tableData(filterprodi);
+        }).on('click','.detailData', function(){
+            $.ajax({
+                url: "/pendaftaran/"+$(this).data('id')+"/edit",
+                type: 'GET',
+                success: function(result) {
+                    $('#nama_detail').html(result.user.nama);
+                    $('#ttl_detail').html(result.user.tempat_lahir+', '+result.user.tgl_lahir);
+                    $('#jenis_kelamin_detail').html(result.user.jenis_kelamin);
+                    $('#alamat_detail').html(result.user.alamat);
+                    $('#telp_detail').html(result.user.telp);
+                    $('#email_detail').html(result.user.email);
+                    $('#nik_detail').html(result.user.nik);
+                    $('#nisn_detail').html(result.user.biodatamahasiswa.nisn);
+                    $('#jenis_sekolah_detail').html(result.user.biodatamahasiswa.jenis_sekolah);
+                    $('#nama_sekolah_detail').html(result.user.biodatamahasiswa.nama_sekolah);
+                    $('#jurusan_sekolah_detail').html(result.user.biodatamahasiswa.jurusan_sekolah);
+                    $('#periode_sekolah_detail').html(result.user.biodatamahasiswa.tahun_masuk+' - '+result.user.biodatamahasiswa.tahun_lulus);
+                    $('#nama_ayah_detail').html(result.user.biodatamahasiswa.nama_ayah);
+                    $('#ttl_ayah_detail').html(result.user.biodatamahasiswa.tempat_lahir_ayah+', '+result.user.biodatamahasiswa.tempat_lahir_ayah);
+                    $('#nik_ayah_detail').html(result.user.biodatamahasiswa.nik_ayah);
+                    $('#alamat_ayah_detail').html(result.user.biodatamahasiswa.alamat_ayah);
+                    $('#pendidikan_ayah_detail').html(result.user.biodatamahasiswa.pendidikan_ayah);
+                    $('#pekerjaan_ayah_detail').html(result.user.biodatamahasiswa.pekerjaan_ayah);
+                    $('#nama_ibu_detail').html(result.user.biodatamahasiswa.nama_ibu);
+                    $('#ttl_ibu_detail').html(result.user.biodatamahasiswa.tempat_lahir_ibu+', '+result.user.biodatamahasiswa.tempat_lahir_ibu);
+                    $('#nik_ibu_detail').html(result.user.biodatamahasiswa.nik_ibu);
+                    $('#alamat_ibu_detail').html(result.user.biodatamahasiswa.alamat_ibu);
+                    $('#pendidikan_ibu_detail').html(result.user.biodatamahasiswa.pendidikan_ibu);
+                    $('#pekerjaan_ibu_detail').html(result.user.biodatamahasiswa.pekerjaan_ibu);
+                    $('#ijazah_detail').html('<a href="/ijazah/'+result.user.biodatamahasiswa.ijazah+'" target="_blank">Lihat Ijazah</a>');
+                    $('#no_ijazah_detail').html(result.user.biodatamahasiswa.no_ijazah);
+                    $('#prodi_id_detail').html(result.prodi.nama_prodi);
+                    $('#modal-title').html('Detail Data Calon Mahasiswa');
+                    $('#modal').modal('show');
+                }
+            });
         });
     </script>
 @endpush
