@@ -68,4 +68,5 @@ Route::middleware(['auth'])->group(function () {
     // Modul Pendaftaran
     Route::resource('/pendaftaran', PendaftaranController::class);
     Route::get('/pendaftaran-list/{prodi?}', [PendaftaranController::class, 'list'])->name('pendaftaran-list');
+    Route::post('/pendaftaran-penerimaan', [PendaftaranController::class, 'penerimaan'])->name('pendaftaran-penerimaan');
 });

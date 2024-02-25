@@ -64,7 +64,7 @@
                                     <form id="form">
                                         @csrf
                                         {{-- Start section Biodata Diri --}}
-                                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                        <input type="hidden" name="user_id" value="">
                                         <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajaran->id }}">
                                         <div class="divider">
                                             <div class="divider-text">Biodata Diri</div>
@@ -79,8 +79,7 @@
                                                 </span>
                                             @enderror
                                             <div class="col-md-8 form-group">
-                                                <input type="text" id="nama" class="form-control @error('nama') is-invalid @enderror" name="nama"
-                                                    value="{{ Auth::user()->nama }}">
+                                                <input type="text" id="nama" class="form-control @error('nama') is-invalid @enderror" name="nama">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="tempat_lahir">Tempat & Tanggal Lahir</label>
@@ -136,8 +135,7 @@
                                                 </span>
                                             @enderror
                                             <div class="col-md-8 form-group">
-                                                <input type="text" id="telp" class="form-control @error('telp') is-invalid @enderror" name="telp"
-                                                    value="{{ Auth::user()->telp }}">
+                                                <input type="text" id="telp" class="form-control @error('telp') is-invalid @enderror" name="telp">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="email">Email</label>
@@ -148,8 +146,7 @@
                                                 </span>
                                             @enderror
                                             <div class="col-md-8 form-group">
-                                                <input type="text" id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                                    value="{{ Auth::user()->email }}">
+                                                <input type="text" id="email" class="form-control @error('email') is-invalid @enderror" name="email">
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="nik">Nomor Induk Kependudukan (NIK)</label>
@@ -471,6 +468,39 @@
             });
         }
 
+        function penerimaan(id,status){
+            var data = {
+                    _token:'{{ csrf_token() }}',
+                    id:id,
+                    status:status
+                };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/pendaftaran-penerimaan",
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        successMsg(result.success)
+                        $('#table1').DataTable().ajax.reload();
+                    } else {
+                        $.each(result.errors, function (key, value) {
+                            errorMsg(value)
+                        });
+                    }
+                },
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
+            });
+        }
+
         $(document).ready(function () {
             var filterprodi = ($('#filter_prodi_id').val() == '') ? '' : $('#filter_prodi_id').val();
             tableData(filterprodi);
@@ -549,6 +579,12 @@
                     $('#modal').modal('show');
                 }
             });
+        }).on('click','.acceptData', function(){
+            var id = $(this).data('id');
+            penerimaan(id,1);
+        }).on('click','.rejectData', function(){
+            var id = $(this).data('id');
+            penerimaan(id,0);
         });
     </script>
 @endpush

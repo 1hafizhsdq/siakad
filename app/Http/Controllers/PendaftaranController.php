@@ -10,13 +10,13 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class PendaftaranController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         $data['title'] = 'Pendaftaran';
         $data['user'] = User::with('pendaftaran','biodatamahasiswa')
             ->where('id', Auth::user()->id)
@@ -38,11 +38,14 @@ class PendaftaranController extends Controller
     }
 
     public function list($prodi = null){
-        $data = Pendaftaran::with('user','prodi','tahunajaran')->orderBy('created_at');
+        $data = Pendaftaran::with('user','prodi','tahunajaran')
+            ->whereNull('status');
         if($prodi != null){
             $data = $data->where('prodi_id',$prodi);
         }
-        $data = $data->get();
+        $data = $data
+                ->orderBy('created_at')
+                ->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -80,8 +83,7 @@ class PendaftaranController extends Controller
         //
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'tempat_lahir' => 'required',
@@ -132,17 +134,27 @@ class PendaftaranController extends Controller
         }
 
         try {
-            User::where('id',$request->user_id)
-                ->update([
-                    'tempat_lahir' => strtoupper($request->tempat_lahir), 
-                    'tgl_lahir' => $request->tgl_lahir, 
-                    'jenis_kelamin' => $request->jenis_kelamin, 
-                    'nik' => $request->nik, 
-                    'alamat' => $request->alamat, 
+            if($request->user_id != null){
+                $user = User::where('id',$request->user_id)
+                    ->update([
+                        'tempat_lahir' => strtoupper($request->tempat_lahir), 
+                        'tgl_lahir' => $request->tgl_lahir, 
+                        'jenis_kelamin' => $request->jenis_kelamin, 
+                        'nik' => $request->nik, 
+                        'alamat' => $request->alamat, 
+                    ]);
+            }else{
+                $user = User::create([
+                    'nama' => strtoupper($request->nama),
+                    'telp' => $request->telp,
+                    'email' => $request->email,
+                    'role_id' => 5,
+                    'password' => Hash::make($request->email),
                 ]);
+            }
             
             BiodataMahasiswa::create([
-                'user_id' => $request->user_id,
+                'user_id' => $user->id,
                 'nik' => $request->nik,
                 'nisn' => $request->nisn,
                 'jenis_sekolah' => strtoupper($request->jenis_sekolah),
@@ -170,12 +182,21 @@ class PendaftaranController extends Controller
             ]);
 
             Pendaftaran::create([
-                'user_id' => $request->user_id,
+                'user_id' => $user->id,
                 'tahun_ajaran_id' => $request->tahun_ajaran_id,
                 'prodi_id' => $request->prodi_id,
             ]);
 
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data']]);
+        }
+    }
+
+    public function penerimaan(Request $request){
+        try {
+            Pendaftaran::where('id', $request->id)->update(['status' => $request->status]);
+            return response()->json([ 'success' => 'Berhasil menyimpan data']);
         } catch (\Throwable $th) {
             return response()->json(['errors' => ['Gagal menyimpan data']]);
         }
