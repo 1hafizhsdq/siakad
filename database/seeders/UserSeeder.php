@@ -22,6 +22,13 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role_id' => '1',
             ],
+            [
+                'no_induk' => '2',
+                'nama' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('password'),
+                'role_id' => '2',
+            ],
         ]);
     }
 }

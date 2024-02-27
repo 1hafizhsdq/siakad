@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('Users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('alamat')->nullable()->after('role_id');
             $table->string('telp')->nullable()->after('alamat');
             $table->enum('jenis_kelamin',['Laki-laki','Perempuan'])->nullable()->after('telp');
@@ -23,7 +23,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('Users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
