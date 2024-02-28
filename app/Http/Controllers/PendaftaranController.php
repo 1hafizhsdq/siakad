@@ -143,6 +143,7 @@ class PendaftaranController extends Controller
                         'nik' => $request->nik, 
                         'alamat' => $request->alamat, 
                     ]);
+                $userId = $request->user_id;
             }else{
                 $user = User::create([
                     'nama' => strtoupper($request->nama),
@@ -151,10 +152,11 @@ class PendaftaranController extends Controller
                     'role_id' => 5,
                     'password' => Hash::make($request->email),
                 ]);
+            $userId = $user->id;
             }
             
             BiodataMahasiswa::create([
-                'user_id' => $user->id,
+                'user_id' => $userId,
                 'nik' => $request->nik,
                 'nisn' => $request->nisn,
                 'jenis_sekolah' => strtoupper($request->jenis_sekolah),
@@ -182,7 +184,7 @@ class PendaftaranController extends Controller
             ]);
 
             Pendaftaran::create([
-                'user_id' => $user->id,
+                'user_id' => $userId,
                 'tahun_ajaran_id' => $request->tahun_ajaran_id,
                 'prodi_id' => $request->prodi_id,
             ]);
