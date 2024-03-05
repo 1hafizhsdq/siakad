@@ -36,6 +36,14 @@
             --bs-card-cap-bg: #f9f07a;
         }
     </style>
+    <style>
+        html[data-bs-theme=dark] .layout-horizontal .header-top .logo img{
+            height: 60px;
+        }
+        .layout-horizontal .header-top .logo img{
+            height: 60px;
+        }
+    </style>
 </head>
 
 <body class="light dark">
