@@ -17,7 +17,7 @@ use Yajra\DataTables\Facades\DataTables;
 class PendaftaranController extends Controller
 {
     public function index(){
-        $data['title'] = 'Pendaftaran';
+        $data['title'] = 'Pendaftaran Mahasiswa Baru';
         $data['user'] = User::with('pendaftaran','biodatamahasiswa')
             ->where('id', Auth::user()->id)
             ->first();
