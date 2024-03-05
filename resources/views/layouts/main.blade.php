@@ -35,6 +35,9 @@
         .sidebar-wrapper .menu .submenu .submenu-item.active>a {
             color: #178c52;
         }
+        .nav-tabs .nav-link.active {
+            color: #178c52;
+        }
     </style>
     @stack('css')
 </head>

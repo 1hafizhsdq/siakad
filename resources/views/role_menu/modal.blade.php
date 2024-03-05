@@ -18,11 +18,11 @@
                     <i class="bx bx-x d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Close</span>
                 </button>
-                <button id="save" type="button" class="btn btn-primary ms-1">
+                <button id="save" type="button" class="btn btn-success ms-1">
                     <i class="bx bx-check d-block d-sm-none"></i>
                     <span class="d-none d-sm-block">Submit</span>
                 </button>
-                <button class="btn btn-primary spinner" id="loading" style="display: none;" type="button" disabled="">
+                <button class="btn btn-success spinner" id="loading" style="display: none;" type="button" disabled="">
                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     Loading...
                 </button>

@@ -25,7 +25,7 @@
                             <th>Tahun Ajaran</th>
                             <th>Semester</th>
                             <th width="15%">
-                                <button id="add" class="btn btn-xs btn-primary addData" title="Tambah Data">
+                                <button id="add" class="btn btn-xs btn-success addData" title="Tambah Data">
                                     <i class="bi bi-plus"></i> Add Data
                                 </button>
                             </th>
