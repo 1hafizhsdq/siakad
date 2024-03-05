@@ -72,6 +72,8 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
         public_path('ijazah') => storage_path('app/ijazah'),
+        public_path('pembayaran_pendaftaran') => storage_path('app/pembayaran_pendaftaran'),
+        public_path('herregistrasi') => storage_path('app/herregistrasi'),
     ],
 
 ];

@@ -18,11 +18,14 @@ class PendaftaranController extends Controller
 {
     public function index(){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['user'] = User::with('pendaftaran','biodatamahasiswa')
+        $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
+        $data['user'] = User::with('pendaftaran.tahunajaran','biodatamahasiswa')
+            // ->whereHas('pendaftaran', function($q) use($data) {
+            //     $q->where('tahun_ajaran_id', $data['tahun_ajaran']->id);
+            // })
             ->where('id', Auth::user()->id)
             ->first();
         $data['prodi'] = Prodi::get();
-        $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
 
         if($data['user']->role_id == 5){
             if($data['user']->pendaftaran->isEmpty()){
@@ -100,6 +103,7 @@ class PendaftaranController extends Controller
             'tahun_masuk' => 'required',
             'tahun_lulus' => 'required',
             'file' => 'required|mimes:pdf|max:2048',
+            'file_pembayaran' => 'required|mimes:jpg,jpeg,png|max:2048',
             'no_ijazah' => 'required',
             'prodi_id' => 'required',
         ], [
@@ -120,6 +124,9 @@ class PendaftaranController extends Controller
             'file.required' => 'Ijazah tidak boleh kosong!',
             'file.mimes' => 'Ijazah harus berformat PDF!',
             'file.max' => 'Ijazah maksimal berukuran 2MB!',
+            'file_pembayaran.required' => 'Bukti Pembayaran tidak boleh kosong!',
+            'file_pembayaran.mimes' => 'Bukti Pembayaran harus berformat PDF!',
+            'file_pembayaran.max' => 'Bukti Pembayaran maksimal berukuran 2MB!',
             'no_ijazah.required' => 'No. Ijazah tidak boleh kosong!',
             'prodi_id.required' => 'Program Studi tidak boleh kosong!',
         ]);
@@ -131,6 +138,11 @@ class PendaftaranController extends Controller
         if ($request->hasfile('file')) {
             $filename = round(microtime(true) * 1000).'-'.$request->no_ijazah. '.' . $request->file->extension();
             $request->file->move(storage_path('app/ijazah/'), $filename);
+        }
+        
+        if ($request->hasfile('file_pembayaran')) {
+            $fileBuktiBayar = round(microtime(true) * 1000).'.' . $request->file_pembayaran->extension();
+            $request->file_pembayaran->move(storage_path('app/pembayaran_pendaftaran/'), $fileBuktiBayar);
         }
 
         try {
@@ -187,6 +199,7 @@ class PendaftaranController extends Controller
                 'user_id' => $userId,
                 'tahun_ajaran_id' => $request->tahun_ajaran_id,
                 'prodi_id' => $request->prodi_id,
+                'bukti_bayar_pendaftaran' => $fileBuktiBayar,
             ]);
 
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);

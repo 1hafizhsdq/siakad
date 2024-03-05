@@ -38,6 +38,21 @@
         .nav-tabs .nav-link.active {
             color: #178c52;
         }
+        .burger-color {
+            color: #178c52;
+        }
+        html[data-bs-theme=dark] .burger-color {
+            color: rgb(67 95 190);
+        }
+        .nav-link {
+            color: #979797;
+        }
+        .nav-tabs .nav-link.active:after {
+            background-color: #178c52 !important;
+        }
+        h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+            color: #2e2e2e !important;
+        }
     </style>
     @stack('css')
 </head>
@@ -53,7 +68,7 @@
                 <nav class="navbar navbar-expand navbar-light navbar-top">
                     <div class="container-fluid">
                         <a href="#" class="burger-btn d-block">
-                            <i class="bi bi-justify fs-3"></i>
+                            <i class="bi bi-justify fs-3 burger-color"></i>
                         </a>
                         <button class="navbar-toggler text-success" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

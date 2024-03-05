@@ -4,6 +4,8 @@
 /public/hot
 /public/storage
 /public/ijazah
+/public/pembayaran_pendaftaran
+/public/herregistrasi
 /storage/*.key
 /vendor
 .env
