@@ -25,6 +25,17 @@
     {{-- filepond --}}
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/filepond/filepond.css">
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+    <style>
+        #img-logo {
+            height: 50px !important;
+        }
+        .sidebar-wrapper .menu .sidebar-item.active>.sidebar-link {
+            background-color: #178c52;
+        }
+        .sidebar-wrapper .menu .submenu .submenu-item.active>a {
+            color: #178c52;
+        }
+    </style>
     @stack('css')
 </head>
 
@@ -41,7 +52,7 @@
                         <a href="#" class="burger-btn d-block">
                             <i class="bi bi-justify fs-3"></i>
                         </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        <button class="navbar-toggler text-success" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
