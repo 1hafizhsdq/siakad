@@ -575,6 +575,7 @@
                     $('#ijazah_detail').html('<a href="/ijazah/'+result.user.biodatamahasiswa.ijazah+'" target="_blank">Lihat Ijazah</a>');
                     $('#no_ijazah_detail').html(result.user.biodatamahasiswa.no_ijazah);
                     $('#prodi_id_detail').html(result.prodi.nama_prodi);
+                    $('#bukti_pembayaran_detail').html('<a href="/pembayaran_pendaftaran/'+result.bukti_bayar_pendaftaran+'" target="_blank">Lihat Bukti Pembayaran Pendaftaran</a>');
                     $('#modal-title').html('Detail Data Calon Mahasiswa');
                     $('#modal').modal('show');
                 }

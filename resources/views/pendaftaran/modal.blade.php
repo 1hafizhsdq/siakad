@@ -133,6 +133,10 @@
                         <label>Program Studi: </label>
                     </div>
                     <div class="col-md-8 form-group" id="prodi_id_detail"></div>
+                    <div class="col-md-4">
+                        <label>Bukti Pembayaran Pendaftaran: </label>
+                    </div>
+                    <div class="col-md-8 form-group" id="bukti_pembayaran_detail"></div>
                 </div>
             </div>
         </div>
