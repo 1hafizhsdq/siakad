@@ -20,9 +20,6 @@ class PendaftaranController extends Controller
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
         $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
         $data['user'] = User::with('pendaftaran.tahunajaran','biodatamahasiswa')
-            // ->whereHas('pendaftaran', function($q) use($data) {
-            //     $q->where('tahun_ajaran_id', $data['tahun_ajaran']->id);
-            // })
             ->where('id', Auth::user()->id)
             ->first();
         $data['prodi'] = Prodi::get();
@@ -38,6 +35,18 @@ class PendaftaranController extends Controller
         }elseif($data['user']->role_id == 1 || $data['user']->role_id == 2){
             return view('pendaftaran.index',$data);
         }
+    }
+
+    public function pengumuman(){
+        $data['title'] = 'Pengumuman Mahasiswa Baru';
+        $data['pengumuman'] = Pendaftaran::with('tahunajaran','prodi','user')
+            ->whereHas('tahunajaran', function($q){
+                $q->where('is_active',1);
+            })
+            ->where('user_id', Auth::user()->id)
+            ->first();
+
+        return view('pendaftaran.pengumuman',$data);
     }
 
     public function list($prodi = null){

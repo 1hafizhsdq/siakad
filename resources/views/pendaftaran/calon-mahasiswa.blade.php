@@ -103,12 +103,12 @@
                     <div class="container">
                         <ul>
                             <li class="menu-item  ">
-                                <a href="index.html" class='menu-link'>
+                                <a href="/pendaftaran" class='menu-link'>
                                     <span><i class="bi bi-clipboard"></i> Pendaftaran Mahasiswa Baru</span>
                                 </a>
                             </li>
                             <li class="menu-item  ">
-                                <a href="index.html" class='menu-link'>
+                                <a href="/pendaftaran-pengumuman" class='menu-link'>
                                     <span><i class="bi bi-bell"></i> Pengumuman</span>
                                 </a>
                             </li>
