@@ -429,6 +429,7 @@
         </div>
     </section>
     @includeIf('pendaftaran.modal')
+    @includeIf('pendaftaran.modal-tolak')
 </div>
 @endsection
 
@@ -468,11 +469,12 @@
             });
         }
 
-        function penerimaan(id,status){
+        function penerimaan(id,status,keterangan){
             var data = {
                     _token:'{{ csrf_token() }}',
                     id:id,
-                    status:status
+                    status:status,
+                    keterangan:keterangan
                 };
 
             $.ajaxSetup({
@@ -487,6 +489,7 @@
                 success: function (result) {
                     if (result.success) {
                         successMsg(result.success)
+                        $('#modal-tolak').modal('hide');
                         $('#table1').DataTable().ajax.reload();
                     } else {
                         $.each(result.errors, function (key, value) {
@@ -582,10 +585,16 @@
             });
         }).on('click','.acceptData', function(){
             var id = $(this).data('id');
-            penerimaan(id,1);
+            penerimaan(id,1,null);
         }).on('click','.rejectData', function(){
             var id = $(this).data('id');
-            penerimaan(id,0);
+            $('#id').val(id);
+            $('#modal-tolak').modal('show');
+        }).on('click','#save', function(){
+            var keterangan = $('#keterangan').val();
+            var id = $('#id').val();
+
+            penerimaan(id,3,keterangan);
         });
     </script>
 @endpush

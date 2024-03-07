@@ -219,7 +219,7 @@ class PendaftaranController extends Controller
 
     public function penerimaan(Request $request){
         try {
-            Pendaftaran::where('id', $request->id)->update(['status' => $request->status]);
+            Pendaftaran::where('id', $request->id)->update(['status' => $request->status,'keterangan' => $request->keterangan]);
             return response()->json([ 'success' => 'Berhasil menyimpan data']);
         } catch (\Throwable $th) {
             return response()->json(['errors' => ['Gagal menyimpan data']]);
