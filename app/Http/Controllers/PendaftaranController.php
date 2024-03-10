@@ -18,7 +18,7 @@ class PendaftaranController extends Controller
 {
     public function index(){
         $data['title'] = 'Pendaftaran Mahasiswa Baru';
-        $data['tahun_ajaran'] = TahunAjaran::where('is_active',1)->first();
+        $data['tahun_ajarans'] = TahunAjaran::where('is_active',1)->first();
         $data['user'] = User::with('pendaftaran.tahunajaran','biodatamahasiswa')
             ->where('id', Auth::user()->id)
             ->first();
@@ -75,13 +75,13 @@ class PendaftaranController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-detail" data-id="'.$data->id.'" class="btn btn-xs btn-warning detailData" title="Detail Data">
+                    <a href="javascripts:void(0)" id="btn-detail" data-id="'.$data->id.'" class="btn btn-xs btn-warning detailData" title="Detail Data">
                         <i class="bi bi-eye"></i>
                     </a>
-                    <a href="javascript:void(0)" id="btn-accept" data-id="'.$data->id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
+                    <a href="javascripts:void(0)" id="btn-accept" data-id="'.$data->id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
                         <i class="bi bi-check"></i>
                     </a>
-                    <a href="javascript:void(0)" id="btn-reject" data-id="'.$data->id.'" class="btn btn-xs btn-danger rejectData" title="Tolak Data">
+                    <a href="javascripts:void(0)" id="btn-reject" data-id="'.$data->id.'" class="btn btn-xs btn-danger rejectData" title="Tolak Data">
                         <i class="bi bi-x"></i>
                     </a>
                 ';
