@@ -51,7 +51,7 @@
                     url: 'tahun-ajaran-list',
                 },
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: 'DT_RowIndexs',
                         class: 'text-center'
                     },
                     {
