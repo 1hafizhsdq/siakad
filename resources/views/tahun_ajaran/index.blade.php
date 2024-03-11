@@ -24,6 +24,7 @@
                             <th width="15%">No.</th>
                             <th>Tahun Ajaran</th>
                             <th>Semester</th>
+                            <th>Status Aktif</th>
                             <th width="15%">
                                 <button id="add" class="btn btn-xs btn-success addData" title="Tambah Data">
                                     <i class="bi bi-plus"></i> Add Data
@@ -51,7 +52,7 @@
                     url: 'tahun-ajaran-list',
                 },
                 columns: [{
-                        data: 'DT_RowIndexs',
+                        data: 'DT_RowIndex',
                         class: 'text-center'
                     },
                     {
@@ -59,6 +60,10 @@
                     },
                     {
                         data: 'semester'
+                    },
+                    {
+                        data: 'status_aktif',
+                        class: 'text-center'
                     },
                     {
                         data: 'aksi',
@@ -149,6 +154,25 @@
                             $('#table1').DataTable().ajax.reload();
                         }
                     });
+                }
+            });
+        }).on('change','.isactive', function(){
+            var id = $(this).data('id');
+
+            $.ajax({
+                url: "/tahun-ajaran/"+id,
+                type: 'GET',
+                success: function(result) {
+                    if (result.success) {
+                            successMsg(result.success)
+                            $('#table1').DataTable().ajax.reload();
+                        } else {
+                            $('.spinner').css('display', 'none');
+                            $('#save').css('display', 'block');
+                            $.each(result.errors, function (key, value) {
+                                errorMsg(value)
+                            });
+                        }
                 }
             });
         });

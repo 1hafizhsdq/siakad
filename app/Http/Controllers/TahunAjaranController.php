@@ -21,6 +21,10 @@ class TahunAjaranController extends Controller
 
         return DataTables::of($data)
             ->addIndexColumn()
+            ->editColumn('status_aktif', function ($data){
+                $checked = ($data->is_active == 1) ? 'checked' : '';
+                return '<input type="checkbox" id="checkbox1" class="form-check-input isactive"'. $checked .' data-id="'.$data->id.'" >';
+            })
             ->addColumn('aksi', function ($data) {
                 return '
                     <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
@@ -31,7 +35,7 @@ class TahunAjaranController extends Controller
                     </a>
                 ';
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi','status_aktif'])
             ->make(true);
     }
 
@@ -69,9 +73,15 @@ class TahunAjaranController extends Controller
         }
     }
 
-    public function show(TahunAjaran $tahunAjaran)
+    public function show($id)
     {
-        //
+        try {
+            TahunAjaran::where('id','!=',$id)->update(['is_active' => null]);
+            TahunAjaran::where('id',$id)->update(['is_active' => 1]);
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
+        }
     }
 
     public function edit($id)
