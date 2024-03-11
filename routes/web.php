@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\HerregistrasiController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PendaftaranController;
@@ -64,11 +65,15 @@ Route::middleware(['auth'])->group(function () {
     // Modul Matkul
     Route::resource('/matkul', MatkulController::class);
     Route::get('/matkul-list', [MatkulController::class, 'list'])->name('matkul-list');
-
+    
     // Modul Pendaftaran
     Route::resource('/pendaftaran', PendaftaranController::class);
     Route::get('/pendaftaran-list/{prodi?}', [PendaftaranController::class, 'list'])->name('pendaftaran-list');
     Route::post('/pendaftaran-penerimaan', [PendaftaranController::class, 'penerimaan'])->name('pendaftaran-penerimaan');
     Route::get('/pendaftaran-pengumuman', [PendaftaranController::class, 'pengumuman'])->name('pendaftaran-pengumuman');
     Route::post('/pendaftaran-herregistrasi', [PendaftaranController::class, 'storeherregistrasi'])->name('pendaftaran-herregistrasi');
+    
+    // Modul Herregistrasi
+    Route::resource('/herregistrasi', HerregistrasiController::class);
+    Route::get('/herregistrasi-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herregistrasi-list');
 });
