@@ -217,6 +217,34 @@ class PendaftaranController extends Controller
         }
     }
 
+    public function storeherregistrasi(Request $request){
+        $validator = Validator::make($request->all(), [
+            'file_herregistrasi' => 'required|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'file_herregistrasi.required' => 'Bukti Pembayaran tidak boleh kosong!',
+            'file_herregistrasi.mimes' => 'Bukti Pembayaran harus berformat PDF!',
+            'file_herregistrasi.max' => 'Bukti Pembayaran maksimal berukuran 2MB!',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        if ($request->hasfile('file_herregistrasi')) {
+            $fileBuktiBayar = round(microtime(true) * 1000).'.' . $request->file_herregistrasi->extension();
+            $request->file_herregistrasi->move(storage_path('app/herregistrasi/'), $fileBuktiBayar);
+        }
+
+        try {
+            Pendaftaran::where('id',$request->id)->update([
+                'bukti_bayar_herregistrasi' => $fileBuktiBayar
+            ]);
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data']]);
+        }
+    }
+
     public function penerimaan(Request $request){
         try {
             Pendaftaran::where('id', $request->id)->update(['status' => $request->status,'keterangan' => $request->keterangan]);

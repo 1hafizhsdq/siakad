@@ -15,41 +15,52 @@
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/compiled/css/iconly.css">
     {{-- filepond --}}
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/filepond/filepond.css">
-    <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
+    <link rel="stylesheet"
+        href="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
     {{-- toast --}}
     <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.css">
-    <link rel="stylesheet" href="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet"
+        href="{{ asset('dist') }}/assets/extensions/sweetalert2/sweetalert2.min.css">
     <style>
         .layout-horizontal .main-navbar {
             background-color: #178c52
         }
-        html[data-bs-theme=dark] .layout-horizontal .header-top .logo img{
+
+        html[data-bs-theme=dark] .layout-horizontal .header-top .logo img {
             height: 60px;
         }
-        .layout-horizontal .header-top .logo img{
+
+        .layout-horizontal .header-top .logo img {
             height: 60px;
         }
+
         .layout-horizontal .main-navbar {
             padding: 0.5rem;
         }
+
         .layout-horizontal .main-navbar ul .menu-link {
             color: #ffffff !important;
         }
+
         .card {
             --bs-card-cap-bg: #f9f07a;
         }
+
     </style>
     <style>
-        html[data-bs-theme=dark] .layout-horizontal .header-top .logo img{
+        html[data-bs-theme=dark] .layout-horizontal .header-top .logo img {
             height: 60px;
         }
-        .layout-horizontal .header-top .logo img{
+
+        .layout-horizontal .header-top .logo img {
             height: 60px;
         }
+
         #logo-bca {
             width: 200px !important;
             height: 150px !important;
         }
+
     </style>
 </head>
 
@@ -82,10 +93,12 @@
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg"
                                     aria-labelledby="topbarUserDropdown">
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
                                         </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        <form id="logout-form" action="{{ route('logout') }}"
+                                            method="POST" class="d-none">
                                             @csrf
                                         </form>
                                     </li>
@@ -131,17 +144,67 @@
                                     <h2>{{ $title }}</h2>
                                 </div>
                                 <div class="card-body text-center">
-                                    @if ($pengumuman == null)
+                                    @if($pengumuman == null)
                                         <h5 class="mt-3">
                                             Anda belum melakukan pendaftaran, segera lakukan Pendaftaran Mahasiswa Baru!
                                         </h5>
                                     @else
-                                        @if ($pengumuman->status == 1)
+                                        @if($pengumuman->status == 1)
                                             <h5 class="mt-3">
                                                 SELAMAT ANDA DINYATAKAN DITERIMA
                                             </h5>
                                             <p>{{ $pengumuman->prodi->nama_prodi }}</p>
-                                        @elseif ($pengumuman->status == 3)
+                                            @if ($pengumuman->bukti_bayar_herregistrasi == null)
+                                                <form id="form">
+                                                    @csrf
+                                                    <span>Silahkan lakukan pembayaran Biaya Herregistrasi melalui transfer
+                                                        Bank BCA a/n Sekolah Tinggi Agama Islam Nahdlatul Ulama
+                                                        Pacitan</span>
+                                                    <div class="alert alert-light-secondary color-secondary mt-2">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <img id="logo-bca"
+                                                                    src="{{ asset('dist') }}/assets/compiled/png/bca.png"
+                                                                    alt="Logo">
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <h3 class="mt-5">No. Rekening : 0181944884</h3>
+                                                                <h3>a/n Sekolah Tinggi Agama Islam Nahdlatul Ulama Pacitan
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <h5>Biaya Pendaftaran Calon Mahasiswa sejumlah Rp. 600.000,-</h5>
+                                                    </div>
+                                                    <div class="row mt-5">
+                                                        <div class="col-md-4">
+                                                            <label for="file_herregistrasi">Bukti Pembayaran</label>
+                                                        </div>
+                                                        @error('file_herregistrasi')
+                                                            <span class="text-danger">
+                                                                *<strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
+                                                        <div class="col-md-8 form-group">
+                                                            <input type="file"
+                                                                class="image-preview-filepond @error('file_herregistrasi') is-invalid @enderror"
+                                                                id="file_herregistrasi" name="file_herregistrasi">
+                                                                <input type="hidden" name="id" value="{{ $pengumuman->id }}">
+                                                            <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
+                                                        </div>
+                                                    </div>
+                                                    <button id="save" type="button" class="btn btn-success">
+                                                        Submit
+                                                    </button>
+                                                    <button class="btn btn-success spinner" id="loading" style="display: none;" type="button" disabled="">
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        Loading...
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <span>Pembayaran Herregistrasi telah dilakukan, dan dalam proses verifikasi admin</span>
+                                            @endif
+                                        @elseif($pengumuman->status == 3)
                                             <h5 class="mt-3">
                                                 MOHON MAAF ANDA DINYATAKAN <b>TIDAK DITERIMA</b>
                                             </h5>
@@ -150,7 +213,8 @@
                                             </p>
                                         @else
                                             <h5 class="mt-3">
-                                                Proses Pendaftaran anda sedang dalam proses, penerimaan akan diumumkan setelah proses selesai!
+                                                Proses Pendaftaran anda sedang dalam proses, penerimaan akan diumumkan
+                                                setelah proses selesai!
                                             </h5>
                                         @endif
                                     @endif
@@ -179,50 +243,64 @@
     </script>
     <script src="{{ asset('dist') }}/assets/compiled/js/app.js"></script>
     {{-- filepond --}}
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js"></script>
-    <script src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js"></script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js">
+    </script>
+    <script
+        src="{{ asset('dist') }}/assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js">
+    </script>
     <script src="{{ asset('dist') }}/assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('dist') }}/assets/extensions/toastify-js/src/toastify.js"></script>
     <script src="{{ asset('dist') }}/assets/static/js/pages/filepond.js"></script>
 
-    <script src="{{asset('jquery')}}/jquery.min.js"></script>
-    <script src="{{asset('js')}}/toast.js"></script>
+    <script src="{{ asset('jquery') }}/jquery.min.js"></script>
+    <script src="{{ asset('js') }}/toast.js"></script>
     <script>
         $(document).ready(function () {
-            $('#save').click(function(){
+            $('#save').click(function () {
                 var form = $('#form')[0],
-                data = new FormData(form);
-                
-                $('.spinner').css('display','block');
-                $(this).css('display','none');
+                    data = new FormData(form);
+
+                $('.spinner').css('display', 'block');
+                $(this).css('display', 'none');
 
                 $.ajaxSetup({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 $.ajax({
-                    url: "/pendaftaran",
+                    url: "/pendaftaran-herregistrasi",
                     type: 'POST',
                     processData: false,
                     contentType: false,
                     data: data,
-                    success: function(result) {
+                    success: function (result) {
                         if (result.success) {
                             successMsg(result.success)
-                            $('.spinner').css('display','none');
-                            $('#save').css('display','block');
+                            $('.spinner').css('display', 'none');
+                            $('#save').css('display', 'block');
                             $('#form').find('input').val('');
                             location.reload();
                         } else {
-                            $('.spinner').css('display','none');
-                            $('#save').css('display','block');
-                            $.each(result.errors, function(key, value) {
+                            $('.spinner').css('display', 'none');
+                            $('#save').css('display', 'block');
+                            $.each(result.errors, function (key, value) {
                                 errorMsg(value)
                             });
                         }

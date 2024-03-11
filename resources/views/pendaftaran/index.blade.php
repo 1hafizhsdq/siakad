@@ -65,7 +65,7 @@
                                         @csrf
                                         {{-- Start section Biodata Diri --}}
                                         <input type="hidden" name="user_id" value="">
-                                        <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajaran->id }}">
+                                        <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajarans->id }}">
                                         <div class="divider">
                                             <div class="divider-text">Biodata Diri</div>
                                         </div>
