@@ -54,6 +54,7 @@
             </div>
         </div>
     </section>
+    @includeIf('herregistrasi.modal')
 </div>
 @endsection
 
@@ -105,6 +106,51 @@
             filter();
         }).on('change','#filter_prodi_id', function() {
             filter();
+        }).on('click','.acceptData', function() {
+            var id = $(this).data('id');
+            var nim = $(this).data('nim');
+
+            $('#id').val(id);
+            $('#nim').val(nim);
+            $('#modal-title').html('Konfirmasi Herregistrasi');
+            $('#modal').modal('show');
+        }).on('click','#save', function() {
+            var form = $('#form'),
+                data = form.serializeArray();
+            data.push({ name: '_token', value: '{{ csrf_token() }}' });
+            $('.spinner').css('display', 'block');
+            $(this).css('display', 'none');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/herregistrasi",
+                type: 'POST',
+                data: data,
+                success: function (result) {
+                    if (result.success) {
+                        successMsg(result.success)
+                        $('.spinner').css('display', 'none');
+                        $('#save').css('display', 'block');
+                        $('#modal').modal('hide');
+                        $('#form').find('input').val('');
+                        filter();
+                    } else {
+                        $('.spinner').css('display', 'none');
+                        $('#save').css('display', 'block');
+                        $.each(result.errors, function (key, value) {
+                            errorMsg(value)
+                        });
+                    }
+                },
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
+            });
         });
 
     </script>

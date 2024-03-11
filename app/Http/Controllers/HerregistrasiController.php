@@ -6,6 +6,7 @@ use App\Models\Pendaftaran;
 use App\Models\Prodi;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
 class HerregistrasiController extends Controller
@@ -49,11 +50,8 @@ class HerregistrasiController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
-                    <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data">
-                        <i class="bi bi-trash"></i>
+                    <a href="javascripts:void(0)" id="btn-accept" data-nim="'.$data->user->no_induk.'" data-id="'.$data->id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
+                        Konfirmasi
                     </a>
                 ';
             })
@@ -68,7 +66,25 @@ class HerregistrasiController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'nim' => 'required',
+        ], [
+            'id.required' => 'ID tidak boleh kosong!',
+            'nim.required' => 'NIM tidak boleh kosong!',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        try {
+            Pendaftaran::where('id',$request->id)->update(['is_valid' => 1]);
+            
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data']]);
+        }
     }
 
     public function show(string $id)
