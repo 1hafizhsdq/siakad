@@ -13,6 +13,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="userid" id="userid">
                         <label for="nim">NIM </label>
                         <div class="form-group">
                             <input id="nim" name="nim" type="text" class="form-control">

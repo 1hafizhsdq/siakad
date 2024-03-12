@@ -25,7 +25,7 @@
                             @foreach($tahun_ajarans as $th)
                                 <option value="{{ $th->id }}"
                                     {{ ($th->is_active == 1) ? 'selected' : '' }}>
-                                    {{ $th->nama_tahun_ajaran }}</option>
+                                    {{ $th->nama_tahun_ajaran }} {{ $th->semester }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -109,9 +109,11 @@
         }).on('click','.acceptData', function() {
             var id = $(this).data('id');
             var nim = $(this).data('nim');
+            var userid = $(this).data('userid');
 
             $('#id').val(id);
             $('#nim').val(nim);
+            $('#userid').val(userid);
             $('#modal-title').html('Konfirmasi Herregistrasi');
             $('#modal').modal('show');
         }).on('click','#save', function() {

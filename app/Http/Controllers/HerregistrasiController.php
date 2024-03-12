@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pendaftaran;
 use App\Models\Prodi;
 use App\Models\TahunAjaran;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -50,7 +51,7 @@ class HerregistrasiController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascripts:void(0)" id="btn-accept" data-nim="'.$data->user->no_induk.'" data-id="'.$data->id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
+                    <a href="javascripts:void(0)" id="btn-accept" data-nim="'.$data->user->no_induk.'" data-id="'.$data->id.'" data-userid="'.$data->user_id.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
                         Konfirmasi
                     </a>
                 ';
@@ -80,6 +81,10 @@ class HerregistrasiController extends Controller
 
         try {
             Pendaftaran::where('id',$request->id)->update(['is_valid' => 1]);
+            User::where('id',$request->userid)->update([
+                'no_induk' => $request->nim,
+                'role_id' => 4,
+            ]);
             
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
         } catch (\Throwable $th) {
