@@ -25,11 +25,49 @@ class UserController extends Controller
 
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('status', function ($data) {
+                switch ($data->is_active) {
+                    case '0':
+                        return 'Non Aktif';
+                        break;
+                    case '1':
+                        return 'Aktif';
+                        break;
+                    case '2':
+                        return 'Cuti';
+                        break;
+                    case '3':
+                        return 'Lulus';
+                        break;
+                    case '4':
+                        return 'Pensiun';
+                        break;
+                    case '5':
+                        return 'Meninggal';
+                        break;
+                    default:
+                        return '-';
+                        break;
+                }
+            })
             ->addColumn('aksi', function ($data) {
                 return '
                     <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
                         <i class="bi bi-pencil-square"></i>
                     </a>
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle me-1" type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-power"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5" style="">
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="0">Non Aktif</a>
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="1">Aktif</a>
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="2">Cuti</a>
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="3">Lulus</a>
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="4">Pensiun</a>
+                            <a class="dropdown-item isactive" data-id="'.$data->id.'" data-status="5">Meninggal</a>
+                        </div>
+                    </div>
                 ';
             })
             ->rawColumns(['aksi'])
@@ -87,8 +125,18 @@ class UserController extends Controller
     
                 return response()->json([ 'success' => 'Berhasil menyimpan data.']);
             } catch (\Throwable $th) {
-                return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
+                return response()->json(['errors' => ['Gagal menyimpan data ']]);
             }
+        }
+    }
+
+    public function isactive(Request $request){
+        try {
+            User::where('id',$request->id)->update(['is_active' => $request->status]);
+            
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data ']]);
         }
     }
 

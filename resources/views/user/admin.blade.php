@@ -1,11 +1,12 @@
 <table class="table table-striped" id="table-admin">
     <thead>
         <tr>
-            <th width="15%">No.</th>
+            <th>No.</th>
             <th>NIP</th>
             <th>Nama</th>
             <th>Telepon</th>
-            <th width="15%">#</th>
+            <th>Status</th>
+            <th>#</th>
         </tr>
     </thead>
 </table>
@@ -33,6 +34,9 @@
                     },
                     {
                         data: 'telp'
+                    },
+                    {
+                        data: 'status'
                     },
                     {
                         data: 'aksi',

@@ -89,6 +89,8 @@
                             $('#modal').modal('hide');
                             $('#form').find('input').val('');
                             $('#table-admin').DataTable().ajax.reload();
+                            $('#table-dosen').DataTable().ajax.reload();
+                            $('#table-mahasiswa').DataTable().ajax.reload();
                         } else {
                             $('.spinner').css('display', 'none');
                             $('#save').css('display', 'block');
@@ -102,6 +104,41 @@
                         $('input[name="_token"]').val(newToken);
                     }
                 });
+            });
+        }).on('click','.isactive', function() {
+            var id = $(this).data('id');
+            var status = $(this).data('status');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/user-isactive",
+                type: 'GET',
+                data: {
+                    id:id,
+                    status:status,
+                },
+                success: function (result) {
+                    if (result.success) {
+                        successMsg(result.success)
+                        $('#table-admin').DataTable().ajax.reload();
+                        $('#table-dosen').DataTable().ajax.reload();
+                        $('#table-mahasiswa').DataTable().ajax.reload();
+                    } else {
+                        $('.spinner').css('display', 'none');
+                        $('#save').css('display', 'block');
+                        $.each(result.errors, function (key, value) {
+                            errorMsg(value)
+                        });
+                    }
+                },
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
             });
         })
     </script>

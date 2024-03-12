@@ -86,4 +86,5 @@ Route::middleware(['auth'])->group(function () {
     // Modul User
     Route::resource('/user', UserController::class);
     Route::get('/user-list/{role}', [UserController::class, 'list'])->name('user-list');
+    Route::get('/user-isactive', [UserController::class, 'isactive'])->name('user-isactive');
 });
