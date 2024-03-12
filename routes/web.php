@@ -87,4 +87,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/user', UserController::class);
     Route::get('/user-list/{role}', [UserController::class, 'list'])->name('user-list');
     Route::get('/user-isactive', [UserController::class, 'isactive'])->name('user-isactive');
+    Route::get('/user-reset', [UserController::class, 'reset'])->name('user-reset');
 });

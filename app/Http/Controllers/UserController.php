@@ -55,8 +55,11 @@ class UserController extends Controller
                     <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
                         <i class="bi bi-pencil-square"></i>
                     </a>
+                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-primary resetData" title="Reset Password">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
                     <div class="dropdown">
-                        <button class="btn btn-info dropdown-toggle me-1" type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-info dropdown-toggle me-1" type="button" id="dropdownMenuButton5" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Ubah Status">
                             <i class="bi bi-power"></i>
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5" style="">
@@ -133,7 +136,18 @@ class UserController extends Controller
     public function isactive(Request $request){
         try {
             User::where('id',$request->id)->update(['is_active' => $request->status]);
-            
+
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data ']]);
+        }
+    }
+
+    public function reset(Request $request){
+        try {
+            $data = User::find($request->id);
+            User::where('id',$request->id)->update(['password' => Hash::make($data->email)]);
+
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
         } catch (\Throwable $th) {
             return response()->json(['errors' => ['Gagal menyimpan data ']]);

@@ -140,6 +140,39 @@
                     $('input[name="_token"]').val(newToken);
                 }
             });
+        }).on('click','.resetData', function() {
+            var id = $(this).data('id');
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/user-reset",
+                type: 'GET',
+                data: {
+                    id:id,
+                },
+                success: function (result) {
+                    if (result.success) {
+                        successMsg(result.success)
+                        $('#table-admin').DataTable().ajax.reload();
+                        $('#table-dosen').DataTable().ajax.reload();
+                        $('#table-mahasiswa').DataTable().ajax.reload();
+                    } else {
+                        $('.spinner').css('display', 'none');
+                        $('#save').css('display', 'block');
+                        $.each(result.errors, function (key, value) {
+                            errorMsg(value)
+                        });
+                    }
+                },
+                complete: function () {
+                    var newToken = $('meta[name="csrf-token"]').attr('content');
+                    $('input[name="_token"]').val(newToken);
+                }
+            });
         })
     </script>
     @stack('script-admin')
