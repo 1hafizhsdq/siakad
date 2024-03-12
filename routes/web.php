@@ -78,8 +78,12 @@ Route::middleware(['auth'])->group(function () {
     // Modul Herregistrasi
     Route::resource('/herregistrasi', HerregistrasiController::class);
     Route::get('/herregistrasi-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herregistrasi-list');
-
+    
     // Modul Akun Saya
     Route::get('/akun', [AkunController::class, 'index'])->name('akun');
     Route::post('/change-password', [AkunController::class, 'changePassword'])->name('change-password');
+    
+    // Modul User
+    Route::resource('/user', UserController::class);
+    Route::get('/user-list/{role}', [UserController::class, 'list'])->name('user-list');
 });
