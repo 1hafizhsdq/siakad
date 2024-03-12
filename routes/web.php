@@ -10,6 +10,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\TahunAjaranController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -76,4 +77,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Herregistrasi
     Route::resource('/herregistrasi', HerregistrasiController::class);
     Route::get('/herregistrasi-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herregistrasi-list');
+
+    // Modul Akun Saya
+    Route::get('/akun', [UserController::class, 'index'])->name('akun');
+    Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
 });
