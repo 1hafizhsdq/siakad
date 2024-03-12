@@ -40,10 +40,11 @@
                                 <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
                                     @includeIf('user.admin')
                                 </div>
-                                </div>
                                 <div class="tab-pane fade" id="dosen" role="tabpanel" aria-labelledby="dosen-tab">
+                                    @includeIf('user.dosen')
                                 </div>
                                 <div class="tab-pane fade" id="mahasiswa" role="tabpanel" aria-labelledby="mahasiswa-tab">
+                                    @includeIf('user.mahasiswa')
                                 </div>
                             </div>
                         </div>
@@ -105,4 +106,6 @@
         })
     </script>
     @stack('script-admin')
+    @stack('script-dosen')
+    @stack('script-mahasiswa')
 @endpush
