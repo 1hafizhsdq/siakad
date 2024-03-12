@@ -15,7 +15,7 @@ class UserController extends Controller
         $data['title'] = 'Akun Saya';
         $data['user'] = User::find(Auth::user()->id);
         
-        return view('user.index',$data);
+        return view('akun.index',$data);
     }
 
     public function create()
