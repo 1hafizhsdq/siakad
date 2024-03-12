@@ -56,7 +56,7 @@
                                 <input id="tempat_lahir" name="tempat_lahir" type="text" placeholder="Tempat Lahir" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <input id="tgl_lahir" name="tgl_lahir" type="date" class="form-control" onkeypress="return isNumber(event)">
+                                <input id="tgl_lahir" name="tgl_lahir" type="date" class="form-control">
                             </div>
                         </div>
                     </div>

@@ -173,7 +173,25 @@
                     $('input[name="_token"]').val(newToken);
                 }
             });
-        })
+        }).on('click','.editData',function(){
+            $.ajax({
+                url: "/user/"+$(this).data('id')+"/edit",
+                type: 'GET',
+                success: function(result) {
+                    $('#id').val(result.id);
+                    $('#role_id').val(result.role_id);
+                    $('#nama').val(result.nama);
+                    $('#email').val(result.email);
+                    $('#telp').val(result.telp);
+                    $('#alamat').val(result.alamat);
+                    $('#jenis_kelamin').val(result.jenis_kelamin);
+                    $('#tempat_lahir').val(result.tempat_lahir);
+                    $('#tgl_lahir').val(result.tgl_lahir);
+                    $('#modal-title').html('Edit Data User');
+                    $('#modal').modal('show');
+                }
+            });
+        });
     </script>
     @stack('script-admin')
     @stack('script-dosen')

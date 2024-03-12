@@ -87,8 +87,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'role_id' => 'required',
             'nama' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'telp' => 'required|unique:users,telp',
+            'email' => 'required|email|unique:users,email,'.$request->id,
+            'telp' => 'required|unique:users,telp,'.$request->id,
             'alamat' => 'required',
             'jenis_kelamin' => 'required',
             'tempat_lahir' => 'required',
@@ -121,7 +121,7 @@ class UserController extends Controller
                         'alamat' => $request->alamat,
                         'jenis_kelamin' => $request->jenis_kelamin,
                         'tempat_lahir' => strtoupper($request->tempat_lahir),
-                        'tgl_lahir' => $request->tanggal_lahir,
+                        'tgl_lahir' => $request->tgl_lahir,
                         'password' => Hash::make($request->email),
                     ]
                 );
@@ -161,7 +161,9 @@ class UserController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $data = User::find($id);
+
+        return response()->json($data);
     }
 
     public function update(Request $request, string $id)
