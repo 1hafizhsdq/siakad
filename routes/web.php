@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AkunController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\HerregistrasiController;
 use App\Http\Controllers\MatkulController;
@@ -79,6 +80,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/herregistrasi-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herregistrasi-list');
 
     // Modul Akun Saya
-    Route::get('/akun', [UserController::class, 'index'])->name('akun');
-    Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password');
+    Route::get('/akun', [AkunController::class, 'index'])->name('akun');
+    Route::post('/change-password', [AkunController::class, 'changePassword'])->name('change-password');
 });
