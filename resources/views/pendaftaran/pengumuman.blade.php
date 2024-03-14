@@ -93,14 +93,17 @@
                                 <ul class="dropdown-menu dropdown-menu-end shadow-lg"
                                     aria-labelledby="topbarUserDropdown">
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        <a class="dropdown-item" id="logout">
+                                            <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
+                                        </a>
+                                        {{-- <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout
                                         </a>
                                         <form id="logout-form" action="{{ route('logout') }}"
                                             method="POST" class="d-none">
                                             @csrf
-                                        </form>
+                                        </form> --}}
                                     </li>
                                 </ul>
                             </div>
@@ -307,6 +310,26 @@
                     }
                 });
             });
+
+            $('#logout').click(function(){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "/logout",
+                    type: 'POST',
+                    data: {
+                        _token:'{{ csrf_token() }}'
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            location.reload();
+                        }
+                    },
+                });
+            })
         });
     </script>
 </body>
