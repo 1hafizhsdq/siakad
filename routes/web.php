@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\HerregistrasiController;
+use App\Http\Controllers\JamPerkuliahanController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PendaftaranController;
@@ -63,6 +64,10 @@ Route::middleware(['auth'])->group(function () {
     // Modul Prodi
     Route::resource('/prodi', ProdiController::class);
     Route::get('/prodi-list', [ProdiController::class, 'list'])->name('prodi-list');
+
+    // Modul Jam Perkuliahan
+    Route::resource('/jamperkuliahan', JamPerkuliahanController::class);
+    Route::get('/jamperkuliahan-list', [JamPerkuliahanController::class, 'list'])->name('jamperkuliahan-list');
     
     // Modul Matkul
     Route::resource('/matkul', MatkulController::class);
