@@ -67,7 +67,7 @@
                 serverSide: true,
                 paging: false,
                 ajax: {
-                    url: '/herregistrasi-list/'+tahunajaran+'/'+prodi,
+                    url: '/herreg-list/'+tahunajaran+'/'+prodi,
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -129,7 +129,7 @@
                 }
             });
             $.ajax({
-                url: "/herregistrasi",
+                url: "/herreg",
                 type: 'POST',
                 data: data,
                 success: function (result) {

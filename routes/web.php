@@ -76,8 +76,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pendaftaran-herregistrasi', [PendaftaranController::class, 'storeherregistrasi'])->name('pendaftaran-herregistrasi');
     
     // Modul Herregistrasi
-    Route::resource('/herregistrasi', HerregistrasiController::class);
-    Route::get('/herregistrasi-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herregistrasi-list');
+    Route::resource('/herreg', HerregistrasiController::class);
+    Route::get('/herreg-list/{tahunajaran?}/{prodi?}', [HerregistrasiController::class, 'list'])->name('herreg-list');
     
     // Modul Akun Saya
     Route::get('/akun', [AkunController::class, 'index'])->name('akun');

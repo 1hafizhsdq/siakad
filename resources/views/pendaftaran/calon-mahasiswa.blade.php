@@ -150,7 +150,7 @@
                                             @csrf
                                             {{-- Start section Biodata Diri --}}
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajaran->id }}">
+                                            <input type="hidden" name="tahun_ajaran_id" value="{{ $tahun_ajarans->id }}">
                                             <div class="divider divider-left">
                                                 <div class="divider-text">
                                                     <h5>Biodata Diri</h5>
