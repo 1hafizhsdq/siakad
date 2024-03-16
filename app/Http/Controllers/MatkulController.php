@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matkul;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,12 +13,13 @@ class MatkulController extends Controller
     public function index()
     {
         $data['title'] = "Mata Kuliah";
+        $data['prodis'] = Prodi::get();
 
         return view('matkul.index',$data);
     }
 
     public function list(){
-        $data = Matkul::orderBy('id','desc')->get();
+        $data = Matkul::with('prodi')->orderBy('id','desc')->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -57,6 +59,7 @@ class MatkulController extends Controller
                 Matkul::updateOrCreate(
                     ['id' =>  $request->id],
                     [
+                        'prodi_id' => $request->prodi_id,
                         'mata_kuliah' => $request->mata_kuliah,
                         'sks' => $request->sks,
                     ]

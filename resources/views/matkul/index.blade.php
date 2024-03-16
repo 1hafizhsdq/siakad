@@ -22,6 +22,7 @@
                     <thead>
                         <tr>
                             <th width="15%">No.</th>
+                            <th>Program Studi</th>
                             <th>Mata Kuliah</th>
                             <th>SKS</th>
                             <th width="15%">
@@ -53,6 +54,9 @@
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'text-center'
+                    },
+                    {
+                        data: 'prodi.nama_prodi'
                     },
                     {
                         data: 'mata_kuliah'
@@ -117,6 +121,7 @@
                 type: 'GET',
                 success: function(result) {
                     $('#id').val(result.id);
+                    $('#prodi_id').val(result.prodi_id);
                     $('#mata_kuliah').val(result.mata_kuliah);
                     $('#sks').val(result.sks);
                     $('#modal-title').html('Edit Data Mata Kuliah');

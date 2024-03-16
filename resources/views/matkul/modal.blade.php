@@ -12,6 +12,15 @@
                 @csrf
                 <input type="hidden" name="id" id="id">
                 <div class="modal-body">
+                    <label for="prodi_id">Program Studi </label>
+                    <div class="form-group">
+                        <select name="prodi_id" id="prodi_id" class="form-select">
+                            <option value="">-- Pilih Program Studi --</option>
+                            @foreach ($prodis as $pr)
+                                <option value="{{ $pr->id }}">{{ $pr->nama_prodi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <label for="mata_kuliah">Mata Kuliah </label>
                     <div class="form-group">
                         <input id="mata_kuliah" name="mata_kuliah" type="text" placeholder="Mata Kuliah" class="form-control">

@@ -14,4 +14,8 @@ class Matkul extends Model
     protected $dates = ['deleted_at'];
 
     protected $guarded = [];
+
+    public function prodi(){
+        return $this->belongsTo(Prodi::class, 'prodi_id');
+    }
 }
