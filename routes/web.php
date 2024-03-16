@@ -3,6 +3,7 @@
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\HerregistrasiController;
+use App\Http\Controllers\JadwalKuliahController;
 use App\Http\Controllers\JamPerkuliahanController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
@@ -93,4 +94,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-list/{role}', [UserController::class, 'list'])->name('user-list');
     Route::get('/user-isactive', [UserController::class, 'isactive'])->name('user-isactive');
     Route::get('/user-reset', [UserController::class, 'reset'])->name('user-reset');
+    
+    // Modul Jadwal Kuliah
+    Route::resource('/jadwalkuliah', JadwalKuliahController::class);
+    Route::get('/jadwalkuliah-list/{role}/{prodi}', [JadwalKuliahController::class, 'list'])->name('jadwalkuliah-list');
+    Route::get('/jadwalkuliah-matkul/{prodi}', [JadwalKuliahController::class, 'matkul'])->name('jadwalkuliah-matkul');
 });
