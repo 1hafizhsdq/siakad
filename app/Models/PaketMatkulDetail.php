@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PaketMatkul extends Model
+class PaketMatkulDetail extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -15,7 +15,11 @@ class PaketMatkul extends Model
 
     protected $guarded = [];
 
-    public function paketdetail(){
-        return $this->hasMany(PaketMatkulDetail::class,'paket_id');
+    public function paket(){
+        return $this->belongsTo(PaketMatkul::class,'paket_id');
+    }
+    
+    public function jadwal(){
+        return $this->belongsTo(JadwalKuliah::class,'jadwal_id');
     }
 }

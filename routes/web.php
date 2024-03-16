@@ -104,4 +104,8 @@ Route::middleware(['auth'])->group(function () {
     // Modul Paket Kuliah
     Route::resource('/paketkuliah', PaketMatkulController::class);
     Route::get('/paketkuliah-list/{prodi}', [PaketMatkulController::class, 'list'])->name('paketkuliah-list');
+    Route::get('/paketkuliah-list-detail/{paket}', [PaketMatkulController::class, 'listDetail'])->name('paketkuliah-list-detail');
+    Route::get('/paketkuliah-matkul/{prodi}', [PaketMatkulController::class, 'getMatkul'])->name('paketkuliah-matkul');
+    Route::post('/paketkuliah-detail', [PaketMatkulController::class, 'storeDetail'])->name('paketkuliah-detail');
+    Route::delete('/paketkuliah-detail/{paketdetail}', [PaketMatkulController::class, 'destroyDetail'])->name('paketkuliah-detail');
 });
