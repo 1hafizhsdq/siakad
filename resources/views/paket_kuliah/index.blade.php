@@ -14,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">
-                    Data Jadwal Kuliah
+                    Data Paket Kuliah
                 </h5>
             </div>
             <div class="card-body">
@@ -43,10 +43,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Matkul</th>
-                            <th>Jadwal</th>
-                            <th>Ruangan</th>
-                            <th>Dosen Pengampu</th>
+                            <th>Nama Paket</th>
+                            <th>Semester</th>
                             <th>
                                 <button id="add" class="btn btn-xs btn-success addData" title="Tambah Data">
                                     <i class="bi bi-plus"></i> Add Data
@@ -58,7 +56,7 @@
             </div>
         </div>
     </section>
-    @includeIf('jadwal_kuliah.modal')
+    @includeIf('paket_kuliah.modal')
 </div>
 @endsection
 
@@ -71,23 +69,17 @@
                 serverSide: true,
                 paging: false,
                 ajax: {
-                    url: '/jadwalkuliah-list/'+prodi,
+                    url: '/paketkuliah-list/'+prodi,
                 },
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'text-center'
                     },
                     {
-                        data: 'matkul'
+                        data: 'nama_paket'
                     },
                     {
-                        data: 'jadwal'
-                    },
-                    {
-                        data: 'ruangan'
-                    },
-                    {
-                        data: 'dosen'
+                        data: 'semester'
                     },
                     {
                         data: 'aksi',
@@ -95,21 +87,6 @@
                     },
                 ],
                 destroy: true,
-            });
-        }
-
-        function matkul(prodi){
-            matkul = '';
-            $.ajax({
-                url: "/jadwalkuliah-matkul/" + prodi,
-                type: 'GET',
-                success: function (result) {
-                    $('#matkul_id').html();
-                    $.each(result, function (k, v) {
-                        matkul += '<option value="'+v.id+'">'+v.mata_kuliah+' ('+v.sks+' SKS)</option>';
-                    });
-                    $('#matkul_id').html(matkul);
-                }
             });
         }
 
@@ -128,36 +105,22 @@
                 if(prodi == ''){
                     errorMsg('Pilih Program Studi terlebih dahulu!')
                 }else{
-                    matkul = '<option value="">-- Pilih Mata Kuliah --</option>';
-                    $.ajax({
-                        url: "/jadwalkuliah-matkul/" + prodi,
-                        type: 'GET',
-                        success: function (result) {
-                            $('#matkul_id').html();
-                            $.each(result, function (k, v) {
-                                matkul += '<option value="'+v.id+'">'+v.mata_kuliah+' ('+v.sks+' SKS)</option>';
-                            });
-                            $('#matkul_id').html(matkul);
-                        }
-                    });
-                    $('#modal-title').html('Tambah Data Jadwal Perkuliahan');
+                    $('#modal-title').html('Tambah Data Paket Kuliah');
                     $('#modal').modal('show');
                 }
             });
 
             $('#save').click(function () {
-                var prodi = $('#prodi_id').val();
-
                 var form = $('#form'),
                     data = form.serializeArray();
                 data.push(
                     {
-                        name: '_token',
-                        value: '{{ csrf_token() }}'
+                        name: 'prodi_id',
+                        value: $('#prodi_id').val()
                     },
                     {
-                        name: 'prodi_id',
-                        value: prodi
+                        name: '_token',
+                        value: '{{ csrf_token() }}'
                     },
                 );
                 $('.spinner').css('display', 'block');
@@ -169,7 +132,7 @@
                     }
                 });
                 $.ajax({
-                    url: "/jadwalkuliah",
+                    url: "/paketkuliah",
                     type: 'POST',
                     data: data,
                     success: function (result) {
@@ -194,6 +157,19 @@
                     }
                 });
             });
+        }).on('click','.editData',function(){
+            $.ajax({
+                url: "/paketkuliah/"+$(this).data('id')+"/edit",
+                type: 'GET',
+                success: function(result) {
+                    $('#id').val(result.id);
+                    $('#prodi_id').val(result.prodi_id);
+                    $('#nama_paket').val(result.nama_paket);
+                    $('#semester').val(result.semester);
+                    $('#modal-title').html('Edit Data Paket Kuliah');
+                    $('#modal').modal('show');
+                }
+            });
         }).on('click', '.deleteData', function () {
             Swal.fire({
                 icon: 'warning',
@@ -210,7 +186,7 @@
                         }
                     });
                     $.ajax({
-                        url: "/jadwalkuliah/" + $(this).data('id'),
+                        url: "/paketkuliah/" + $(this).data('id'),
                         type: 'DELETE',
                         data: {
                             "_token": '{{ csrf_token() }}',

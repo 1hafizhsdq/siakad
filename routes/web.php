@@ -7,6 +7,7 @@ use App\Http\Controllers\JadwalKuliahController;
 use App\Http\Controllers\JamPerkuliahanController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PaketMatkulController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RoleController;
@@ -97,6 +98,10 @@ Route::middleware(['auth'])->group(function () {
     
     // Modul Jadwal Kuliah
     Route::resource('/jadwalkuliah', JadwalKuliahController::class);
-    Route::get('/jadwalkuliah-list/{role}/{prodi}', [JadwalKuliahController::class, 'list'])->name('jadwalkuliah-list');
+    Route::get('/jadwalkuliah-list/{prodi}', [JadwalKuliahController::class, 'list'])->name('jadwalkuliah-list');
     Route::get('/jadwalkuliah-matkul/{prodi}', [JadwalKuliahController::class, 'matkul'])->name('jadwalkuliah-matkul');
+    
+    // Modul Paket Kuliah
+    Route::resource('/paketkuliah', PaketMatkulController::class);
+    Route::get('/paketkuliah-list/{prodi}', [PaketMatkulController::class, 'list'])->name('paketkuliah-list');
 });

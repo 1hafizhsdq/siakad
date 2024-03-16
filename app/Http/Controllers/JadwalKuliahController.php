@@ -27,9 +27,8 @@ class JadwalKuliahController extends Controller
         return view('jadwal_kuliah.index',$data);
     }
 
-    public function list($tahunAjaran,$prodi){
+    public function list($prodi){
         $data = JadwalKuliah::with('dosen','matkul','ruangan','jam_perkuliahan')
-            ->where('tahun_ajaran_id',$tahunAjaran)
             ->where('prodi_id',$prodi)
             ->get();
 
@@ -92,7 +91,6 @@ class JadwalKuliahController extends Controller
                 $jadwal = JadwalKuliah::where(
                     [
                         ['user_id', '=', $request->user_id],
-                        ['tahun_ajaran_id', '=', $request->tahun_ajaran_id],
                         ['hari', '=', $request->hari],
                         ['jam_perkuliahan_id', '=', $request->jam_perkuliahan_id],
                     ]
@@ -110,7 +108,6 @@ class JadwalKuliahController extends Controller
                             'ruangan_id' => $request->ruangan_id,
                             'hari' => $request->hari,
                             'jam_perkuliahan_id' => $request->jam_perkuliahan_id,
-                            'tahun_ajaran_id' => $request->tahun_ajaran_id,
                             'prodi_id' => $request->prodi_id,
                         ]
                     );
