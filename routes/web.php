@@ -101,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/jadwalkuliah', JadwalKuliahController::class);
     Route::get('/jadwalkuliah-list/{prodi}', [JadwalKuliahController::class, 'list'])->name('jadwalkuliah-list');
     Route::get('/jadwalkuliah-matkul/{prodi}', [JadwalKuliahController::class, 'matkul'])->name('jadwalkuliah-matkul');
+    Route::get('/jadwalkuliah-list-mahasiswa/{tahunajaran}', [JadwalKuliahController::class, 'listMahasiswa'])->name('jadwalkuliah-list-mahasiswa');
     
     // Modul Paket Kuliah
     Route::resource('/paketkuliah', PaketMatkulController::class);
