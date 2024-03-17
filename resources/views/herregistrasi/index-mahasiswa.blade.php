@@ -19,7 +19,7 @@
             </div>
             <div class="card-body">
                 <div class="row my-2">
-                    <div class="col-md-4 form-group">
+                    <div class="col-md-4 form-group" style="display: none;">
                         <label for="filter_tahun_ajaran_id">Tahun Ajaran</label>
                         <select class="form-select" id="filter_tahun_ajaran_id" name="filter_tahun_ajaran_id">
                             @foreach($tahun_ajarans as $th)
@@ -31,43 +31,45 @@
                     </div>
                     <div class="col-md-4 form-group">
                         <label for="filter_prodi_id">Program Studi</label>
-                        <select class="form-select" id="filter_prodi_id" name="filter_prodi_id">
+                        <select class="form-select" id="filter_prodi_id" name="filter_prodi_id" disabled>
                             <option value="">-- Semua Program Studi --</option>
                             @foreach($prodi as $p)
-                                <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
+                                <option value="{{ $p->id }}" {{ ($last_pendaftaran->prodi_id == $p->id) ? 'selected' : '' }}>{{ $p->nama_prodi }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+                <a href="/herreg/create" class="btn btn-xs btn-success addData" title="Tambah Data">
+                    <i class="bi bi-plus"></i> Herregistrasi
+                </a>
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
                             <th width="15%">No.</th>
                             <th>NIM</th>
                             <th>Nama</th>
-                            <th>Prodi</th>
                             <th>Bukti</th>
-                            <th>Aksi</th>
+                            <th>status</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </section>
-    @includeIf('herregistrasi.modal')
+    @includeIf('herregistrasi.modal-mahasiswa')
 </div>
 @endsection
 
 @push('script')
     <script>
-        function tableData(tahunajaran,prodi){
+        function tableData(tahunajaran,prodi,user){
             $('#table1').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 paging: false,
                 ajax: {
-                    url: '/herreg-list/'+tahunajaran+'/'+prodi,
+                    url: '/herreg-list/'+tahunajaran+'/'+prodi+'/'+user,
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -80,14 +82,10 @@
                         data: 'nama'
                     },
                     {
-                        data: 'prodi'
-                    },
-                    {
                         data: 'bukti'
                     },
                     {
-                        data: 'aksi',
-                        class: 'text-center'
+                        data: 'status'
                     },
                 ],
                 destroy: true,
@@ -97,71 +95,21 @@
         function filter(){
             var filtertahunajaran = ($('#filter_tahun_ajaran_id').val() == '') ? '' : $('#filter_tahun_ajaran_id').val();
             var filterprodi = ($('#filter_prodi_id').val() == '') ? '' : $('#filter_prodi_id').val();
+            var user = '{{ Auth::user()->id }}';
 
-            tableData(filtertahunajaran,filterprodi);
+            tableData(filtertahunajaran,filterprodi,user);
         }
         $(document).ready(function () {
             filter();
-        }).on('change','#filter_tahun_ajaran_id', function() {
-            filter();
-        }).on('change','#filter_prodi_id', function() {
-            filter();
-        }).on('click','.acceptData', function() {
-            var id = $(this).data('id');
-            var nim = $(this).data('nim');
-            var userid = $(this).data('userid');
-            var prodiid = $(this).data('prodiid');
-            var dosen = $(this).data('dosen');
-            var semester = $(this).data('semester');
 
-            $('#paket').html('');
-
-            $.ajax({
-                url: "/herreg/"+prodiid+"/edit",
-                type: 'GET',
-                success: function(result) {
-                    paket = '';
-                    $.each(result, function (k, v) {
-                        paket += `
-                            <div class="col-md-4">
-                                <div class="alert alert-secondary">
-                                    <h4 class="alert-heading">Semester `+v.semester+`</h4>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paket" value="`+v.id+`"
-                                            id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            `+v.nama_paket+`
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    $('#paket').html(paket);
-                }
+            $('#add').click(function () {
+                $('#modal-title').html('Herregristrasi');
+                $('#modal').modal('show');
             });
-
-            $('#id').val(id);
-            $('#semester').val(semester);
-            $('#prodi_id').val(prodiid);
-            $('#nim').val(nim);
-            $('#userid').val(userid);
-            $('#dosen_id').val(dosen);
-            $('#modal-title').html('Konfirmasi Herregistrasi');
-            $('#modal').modal('show');
         }).on('click','#save', function() {
-            var form = $('#form'),
-                data = form.serializeArray();
-            data.push(
-                { 
-                    name: '_token', 
-                    value: '{{ csrf_token() }}' 
-                },
-                { 
-                    name: 'tahun_ajaran_id', 
-                    value: $('#filter_tahun_ajaran_id').val()
-                },
-            );
+            var form = $('#form')[0],
+                data = new FormData(form);
+
             $('.spinner').css('display', 'block');
             $(this).css('display', 'none');
 
@@ -171,17 +119,18 @@
                 }
             });
             $.ajax({
-                url: "/herreg",
+                url: "/pendaftaran-herregistrasi",
                 type: 'POST',
+                processData: false,
+                contentType: false,
                 data: data,
                 success: function (result) {
                     if (result.success) {
                         successMsg(result.success)
                         $('.spinner').css('display', 'none');
                         $('#save').css('display', 'block');
-                        $('#modal').modal('hide');
                         $('#form').find('input').val('');
-                        filter();
+                        tampil();
                     } else {
                         $('.spinner').css('display', 'none');
                         $('#save').css('display', 'block');
@@ -189,10 +138,6 @@
                             errorMsg(value)
                         });
                     }
-                },
-                complete: function () {
-                    var newToken = $('meta[name="csrf-token"]').attr('content');
-                    $('input[name="_token"]').val(newToken);
                 }
             });
         });
