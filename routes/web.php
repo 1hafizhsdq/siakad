@@ -9,6 +9,7 @@ use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaketMatkulController;
 use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\PerkuliahanController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
@@ -110,4 +111,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/paketkuliah-matkul/{prodi}', [PaketMatkulController::class, 'getMatkul'])->name('paketkuliah-matkul');
     Route::post('/paketkuliah-detail', [PaketMatkulController::class, 'storeDetail'])->name('paketkuliah-detail');
     Route::delete('/paketkuliah-detail/{paketdetail}', [PaketMatkulController::class, 'destroyDetail'])->name('paketkuliah-detail');
+
+    // Modul Perkuliahan
+    Route::resource('/perkuliahan', PerkuliahanController::class);
+    Route::get('/perkuliahan-list/{user}', [PerkuliahanController::class, 'list'])->name('perkuliahan-list');
 });
