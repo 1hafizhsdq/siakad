@@ -194,6 +194,7 @@
                                                                 id="file_herregistrasi" name="file_herregistrasi">
                                                                 <input type="hidden" name="id" value="{{ $pengumuman->id }}">
                                                             <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
+                                                            <input type="hidden" name="semester" value="1">
                                                         </div>
                                                     </div>
                                                     <button id="save" type="button" class="btn btn-success">

@@ -237,7 +237,8 @@ class PendaftaranController extends Controller
 
         try {
             Pendaftaran::where('id',$request->id)->update([
-                'bukti_bayar_herregistrasi' => $fileBuktiBayar
+                'bukti_bayar_herregistrasi' => $fileBuktiBayar,
+                'semester' => $request->semester,
             ]);
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
         } catch (\Throwable $th) {
