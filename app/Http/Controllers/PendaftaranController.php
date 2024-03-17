@@ -166,9 +166,14 @@ class PendaftaranController extends Controller
                     ]);
                 $userId = $request->user_id;
             }else{
+                if (substr($request->telp, 0, 1) === '0') {
+                    $telp = '62' . substr($request->telp, 1);
+                }else{
+                    $telp = $request->telp;
+                }
                 $user = User::create([
                     'nama' => strtoupper($request->nama),
-                    'telp' => $request->telp,
+                    'telp' => $telp,
                     'email' => $request->email,
                     'role_id' => 5,
                     'password' => Hash::make($request->email),

@@ -111,13 +111,18 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         } else {
             try {
+                if (substr($request->telp, 0, 1) === '0') {
+                    $telp = '62' . substr($request->telp, 1);
+                }else{
+                    $telp = $request->telp;
+                }
                 User::updateOrCreate(
                     ['id' =>  $request->id],
                     [
                         'role_id' => $request->role_id,
                         'nama' => strtoupper($request->nama),
                         'email' => $request->email,
-                        'telp' => $request->telp,
+                        'telp' => $telp,
                         'alamat' => $request->alamat,
                         'jenis_kelamin' => $request->jenis_kelamin,
                         'tempat_lahir' => strtoupper($request->tempat_lahir),

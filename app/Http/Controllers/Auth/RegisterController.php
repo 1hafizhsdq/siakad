@@ -64,9 +64,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (substr($data['telp'], 0, 1) === '0') {
+            $telp = '62' . substr($data['telp'], 1);
+        }else{
+            $telp = $data['telp'];
+        }
         return User::create([
             'nama' => strtoupper($data['nama']),
-            'telp' => $data['telp'],
+            'telp' => $telp,
             'email' => $data['email'],
             'role_id' => 5,
             'password' => Hash::make($data['password']),
