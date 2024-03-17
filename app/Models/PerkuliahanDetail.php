@@ -18,8 +18,12 @@ class PerkuliahanDetail extends Model
     public function perkuliahan(){
         return $this->belongsTo(Perkuliahan::class,'perkuliahan_id');
     }
-
-    public function jadwal(){
-        return $this->belongsTo(JadwalKuliah::class,'jadwal_id');
+    
+    public function matkul(){
+        return $this->belongsTo(Matkul::class,'matkul_id');
+    }
+    
+    public function dosen(){
+        return $this->belongsTo(User::class,'dosen_id');
     }
 }

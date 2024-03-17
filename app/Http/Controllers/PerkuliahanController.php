@@ -53,16 +53,12 @@ class PerkuliahanController extends Controller
 
     public function show($id)
     {
-        // $data['title'] = 'Data Perkuliahan Detail';
-        // $data['data'] = PerkuliahanDetail::with('jadwal.dosen','jadwal.ruangan','jadwal.matkul','jadwal.jam_perkuliahan')
-        //     ->where('perkuliahan_id',$id)
-        //     ->get()
-        //     ->groupBy(function ($item) {
-        //         return $item->jadwal->matkul->mata_kuliah;
-        //     });
-        // // dd($data['data']);
+        $data['title'] = 'Data Perkuliahan Detail';
+        $data['data'] = PerkuliahanDetail::with('dosen','matkul')
+            ->where('perkuliahan_id',$id)
+            ->get();
 
-        // return view('perkuliahan.detail',$data);
+        return view('perkuliahan.detail',$data);
     }
 
     public function edit(Perkuliahan $perkuliahan)

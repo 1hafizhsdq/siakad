@@ -28,7 +28,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @foreach ($data as $dt)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $dt->matkul->mata_kuliah }}</td>
+                                <td>{{ $dt->dosen->nama }}</td>
+                                <td>{{ $dt->nilai }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
