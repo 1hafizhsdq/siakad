@@ -106,96 +106,97 @@
             filter();
         }).on('change','#filter_prodi_id', function() {
             filter();
-        }).on('click','.acceptData', function() {
-            var id = $(this).data('id');
-            var nim = $(this).data('nim');
-            var userid = $(this).data('userid');
-            var prodiid = $(this).data('prodiid');
-            var dosen = $(this).data('dosen');
-            var semester = $(this).data('semester');
-
-            $('#paket').html('');
-
-            $.ajax({
-                url: "/herreg/"+prodiid+"/edit",
-                type: 'GET',
-                success: function(result) {
-                    paket = '';
-                    $.each(result, function (k, v) {
-                        paket += `
-                            <div class="col-md-4">
-                                <div class="alert alert-secondary">
-                                    <h4 class="alert-heading">Semester `+v.semester+`</h4>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="paket" value="`+v.id+`"
-                                            id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            `+v.nama_paket+`
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    $('#paket').html(paket);
-                }
-            });
-
-            $('#id').val(id);
-            $('#semester').val(semester);
-            $('#prodi_id').val(prodiid);
-            $('#nim').val(nim);
-            $('#userid').val(userid);
-            $('#dosen_id').val(dosen);
-            $('#modal-title').html('Konfirmasi Herregistrasi');
-            $('#modal').modal('show');
-        }).on('click','#save', function() {
-            var form = $('#form'),
-                data = form.serializeArray();
-            data.push(
-                { 
-                    name: '_token', 
-                    value: '{{ csrf_token() }}' 
-                },
-                { 
-                    name: 'tahun_ajaran_id', 
-                    value: $('#filter_tahun_ajaran_id').val()
-                },
-            );
-            $('.spinner').css('display', 'block');
-            $(this).css('display', 'none');
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: "/herreg",
-                type: 'POST',
-                data: data,
-                success: function (result) {
-                    if (result.success) {
-                        successMsg(result.success)
-                        $('.spinner').css('display', 'none');
-                        $('#save').css('display', 'block');
-                        $('#modal').modal('hide');
-                        $('#form').find('input').val('');
-                        filter();
-                    } else {
-                        $('.spinner').css('display', 'none');
-                        $('#save').css('display', 'block');
-                        $.each(result.errors, function (key, value) {
-                            errorMsg(value)
-                        });
-                    }
-                },
-                complete: function () {
-                    var newToken = $('meta[name="csrf-token"]').attr('content');
-                    $('input[name="_token"]').val(newToken);
-                }
-            });
         });
+        // .on('click','.acceptData', function() {
+        //     var id = $(this).data('id');
+        //     var nim = $(this).data('nim');
+        //     var userid = $(this).data('userid');
+        //     var prodiid = $(this).data('prodiid');
+        //     var dosen = $(this).data('dosen');
+        //     var semester = $(this).data('semester');
+
+        //     $('#paket').html('');
+
+        //     $.ajax({
+        //         url: "/herreg/"+prodiid+"/edit",
+        //         type: 'GET',
+        //         success: function(result) {
+        //             paket = '';
+        //             $.each(result, function (k, v) {
+        //                 paket += `
+        //                     <div class="col-md-4">
+        //                         <div class="alert alert-secondary">
+        //                             <h4 class="alert-heading">Semester `+v.semester+`</h4>
+        //                             <div class="form-check">
+        //                                 <input class="form-check-input" type="radio" name="paket" value="`+v.id+`"
+        //                                     id="flexRadioDefault1">
+        //                                 <label class="form-check-label" for="flexRadioDefault1">
+        //                                     `+v.nama_paket+`
+        //                                 </label>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 `;
+        //             });
+        //             $('#paket').html(paket);
+        //         }
+        //     });
+
+        //     $('#id').val(id);
+        //     $('#semester').val(semester);
+        //     $('#prodi_id').val(prodiid);
+        //     $('#nim').val(nim);
+        //     $('#userid').val(userid);
+        //     $('#dosen_id').val(dosen);
+        //     $('#modal-title').html('Konfirmasi Herregistrasi');
+        //     $('#modal').modal('show');
+        // }).on('click','#save', function() {
+        //     var form = $('#form'),
+        //         data = form.serializeArray();
+        //     data.push(
+        //         { 
+        //             name: '_token', 
+        //             value: '{{ csrf_token() }}' 
+        //         },
+        //         { 
+        //             name: 'tahun_ajaran_id', 
+        //             value: $('#filter_tahun_ajaran_id').val()
+        //         },
+        //     );
+        //     $('.spinner').css('display', 'block');
+        //     $(this).css('display', 'none');
+
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
+        //     $.ajax({
+        //         url: "/herreg",
+        //         type: 'POST',
+        //         data: data,
+        //         success: function (result) {
+        //             if (result.success) {
+        //                 successMsg(result.success)
+        //                 $('.spinner').css('display', 'none');
+        //                 $('#save').css('display', 'block');
+        //                 $('#modal').modal('hide');
+        //                 $('#form').find('input').val('');
+        //                 filter();
+        //             } else {
+        //                 $('.spinner').css('display', 'none');
+        //                 $('#save').css('display', 'block');
+        //                 $.each(result.errors, function (key, value) {
+        //                     errorMsg(value)
+        //                 });
+        //             }
+        //         },
+        //         complete: function () {
+        //             var newToken = $('meta[name="csrf-token"]').attr('content');
+        //             $('input[name="_token"]').val(newToken);
+        //         }
+        //     });
+        // });
 
     </script>
 @endpush

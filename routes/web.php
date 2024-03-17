@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/herreg', HerregistrasiController::class);
     Route::get('/herreg-list/{tahunajaran?}/{prodi?}/{user?}', [HerregistrasiController::class, 'list'])->name('herreg-list');
     Route::post('/herregistrasi-store', [HerregistrasiController::class, 'storeherregistrasi'])->name('herregistrasi-store');
+    Route::get('/herreg-konfirmasi/{idpendaftaran?}', [HerregistrasiController::class, 'indexKonfirmasi'])->name('herreg-list');
     
     // Modul Akun Saya
     Route::get('/akun', [AkunController::class, 'index'])->name('akun');

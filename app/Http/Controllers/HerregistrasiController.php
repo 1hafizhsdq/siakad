@@ -31,6 +31,17 @@ class HerregistrasiController extends Controller
         return view('herregistrasi.index',$data);
     }
 
+    public function indexKonfirmasi($id){
+        $data['title'] = 'Konfirmasi Herregistrasi';
+        $data['pendaftaran'] = Pendaftaran::with('user','prodi')
+            ->where('id',$id)
+            ->first();
+        $data['dosens'] = User::where('role_id',3)->get();
+        $data['paket'] = PaketMatkul::where('prodi_id',$data['pendaftaran']->prodi_id)->get();
+
+        return view('herregistrasi.konfirmasi',$data);
+    }
+
     public function list($tahunajaran = null, $prodi = null, $user = null){
         if($user != null){
             $data = Pendaftaran::with('user','prodi')
@@ -71,7 +82,7 @@ class HerregistrasiController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascripts:void(0)" id="btn-accept" data-nim="'.$data->user->no_induk.'" data-id="'.$data->id.'" data-userid="'.$data->user_id.'" data-prodiid="'.$data->prodi_id.'" 
+                    <a href="/herreg-konfirmasi/'.$data->id.'" id="btn-accept" data-nim="'.$data->user->no_induk.'" data-id="'.$data->id.'" data-userid="'.$data->user_id.'" data-prodiid="'.$data->prodi_id.'" 
                         data-dosen="'.$data->user->dosen_id.'" data-semester="'.$data->semester.'" class="btn btn-xs btn-success acceptData" title="Terima Data">
                         Konfirmasi
                     </a>
@@ -111,7 +122,13 @@ class HerregistrasiController extends Controller
         }
 
         try {
-            $paket = PaketMatkulDetail::where('paket_id',$request->paket)->get();
+            $paket = PaketMatkulDetail::with('jadwal')
+                ->where('paket_id',$request->paket)
+                ->get()
+                ->groupBy(function ($item) {
+                    return $item->jadwal->matkul_id;
+                });
+            
             Pendaftaran::where('id',$request->id)->update(['is_valid' => 1]);
             User::where('id',$request->userid)->update([
                 'no_induk' => $request->nim,
@@ -125,16 +142,17 @@ class HerregistrasiController extends Controller
                 'semester' => $request->semester,
             ]);
 
-            foreach($paket as $p){
+            foreach($paket as $pkey => $pval){
                 PerkuliahanDetail::create([
                     'perkuliahan_id' => $perkuliahan->id,
-                    'jadwal_id' => $p->jadwal_id,
+                    'matkul_id' => $pkey,
+                    'dosen_id' => $pval[0]->jadwal->user_id,
                 ]);
             }
             
             return response()->json([ 'success' => 'Berhasil menyimpan data.']);
         } catch (\Throwable $th) {
-            return response()->json(['errors' => ['Gagal menyimpan data']]);
+            return response()->json(['errors' => ['Gagal menyimpan data '.$th]]);
         }
     }
 
