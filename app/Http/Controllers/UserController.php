@@ -52,7 +52,7 @@ class UserController extends Controller
             })
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
+                    <a href="/user/'.$data->id.'/edit" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning" title="Edit Data">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-primary resetData" title="Reset Password">
@@ -79,7 +79,10 @@ class UserController extends Controller
 
     public function create()
     {
-        //
+        $data['title'] = 'Form User';
+        $data['role'] = Role::whereNotIn('id',[1,5])->get();
+        
+        return view('user.form',$data);
     }
 
     public function store(Request $request)
@@ -120,6 +123,7 @@ class UserController extends Controller
                     ['id' =>  $request->id],
                     [
                         'role_id' => $request->role_id,
+                        'no_induk' => $request->no_induk,
                         'nama' => strtoupper($request->nama),
                         'email' => $request->email,
                         'telp' => $telp,
@@ -166,9 +170,11 @@ class UserController extends Controller
 
     public function edit(string $id)
     {
-        $data = User::find($id);
-
-        return response()->json($data);
+        $data['title'] = 'Form User';
+        $data['role'] = Role::whereNotIn('id',[1,5])->get();
+        $data['user'] = User::find($id);
+        
+        return view('user.form',$data);
     }
 
     public function update(Request $request, string $id)

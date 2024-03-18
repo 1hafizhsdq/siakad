@@ -33,9 +33,9 @@
                                         aria-controls="mahasiswa" aria-selected="false">Mahasiswa</a>
                                 </li>
                             </ul>
-                            <button id="add" class="btn btn-xs btn-success addData mt-2" title="Tambah Data">
+                            <a href="/user/create" class="btn btn-xs btn-success addData mt-2" title="Tambah Data">
                                 <i class="bi bi-plus"></i> Add Data
-                            </button>
+                            </a>
                             <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="admin-tab">
                                     @includeIf('user.admin')
