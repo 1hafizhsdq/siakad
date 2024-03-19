@@ -29,7 +29,7 @@
                     <label for="ruangan_id">Ruangan </label>
                     <div class="form-group">
                         <select name="ruangan_id" id="ruangan_id" class="form-select">
-                            <option value="">-- Pilih Dosen --</option>
+                            <option value="">-- Pilih Ruangan --</option>
                             @foreach ($ruangans as $r)
                                 <option value="{{ $r->id }}">{{ $r->nama_ruangan }}</option>
                             @endforeach
