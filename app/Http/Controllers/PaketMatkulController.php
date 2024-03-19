@@ -103,11 +103,28 @@ class PaketMatkulController extends Controller
 
     public function createPaketDetail($paketid,$prodiid){
         $data['title'] = "Form Paket Kuliah";
-        $data['listPaket'] = JadwalKuliah::with('matkul','jam_perkuliahan','paketdetail')
+        $data['listPaket'] = JadwalKuliah::with([
+            'matkul',
+            'jam_perkuliahan' => function ($query) {
+                $query->orderBy('jam_ke');
+            },
+            'paketdetail'])
             ->where('prodi_id',$prodiid)
             ->whereDoesntHave('paketdetail', function ($query) use ($paketid) {
                 $query->where('paket_id', $paketid);
             })
+            ->orderByRaw("
+                CASE
+                    WHEN hari = 'SENIN' THEN 1
+                    WHEN hari = 'SELASA' THEN 2
+                    WHEN hari = 'RABU' THEN 3
+                    WHEN hari = 'KAMIS' THEN 4
+                    WHEN hari = 'JUMAT' THEN 5
+                    WHEN hari = 'SABTU' THEN 6
+                    WHEN hari = 'MINGGU' THEN 7
+                    ELSE 8
+                END
+            ")
             ->get();
         $data['paket'] = PaketMatkul::where('id',$paketid)->first();
 
