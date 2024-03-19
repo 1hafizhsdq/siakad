@@ -30,4 +30,8 @@ class JadwalKuliah extends Model
     public function jam_perkuliahan(){
         return $this->belongsTo(JamPerkuliahan::class, 'jam_perkuliahan_id');
     }
+    
+    public function paketdetail(){
+        return $this->hasMany(PaketMatkulDetail::class, 'jadwal_id');
+    }
 }

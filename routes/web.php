@@ -112,6 +112,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/paketkuliah-matkul/{prodi}', [PaketMatkulController::class, 'getMatkul'])->name('paketkuliah-matkul');
     Route::post('/paketkuliah-detail', [PaketMatkulController::class, 'storeDetail'])->name('paketkuliah-detail');
     Route::delete('/paketkuliah-detail/{paketdetail}', [PaketMatkulController::class, 'destroyDetail'])->name('paketkuliah-detail');
+    Route::get('/paketkuliah-detail-form/{paket}/{prodi}', [PaketMatkulController::class, 'createPaketDetail'])->name('paketkuliah-detail-form');
 
     // Modul Perkuliahan
     Route::resource('/perkuliahan', PerkuliahanController::class);

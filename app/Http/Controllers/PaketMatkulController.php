@@ -101,6 +101,19 @@ class PaketMatkulController extends Controller
         //
     }
 
+    public function createPaketDetail($paketid,$prodiid){
+        $data['title'] = "Form Paket Kuliah";
+        $data['listPaket'] = JadwalKuliah::with('matkul','jam_perkuliahan','paketdetail')
+            ->where('prodi_id',$prodiid)
+            ->whereDoesntHave('paketdetail', function ($query) use ($paketid) {
+                $query->where('paket_id', $paketid);
+            })
+            ->get();
+        $data['paket'] = PaketMatkul::where('id',$paketid)->first();
+
+        return view('paket_kuliah.form-detail',$data);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

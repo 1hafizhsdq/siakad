@@ -18,9 +18,9 @@
                 </h5>
             </div>
             <div class="card-body">
-                <button id="add" class="btn btn-xs btn-success" title="Tambah Data">
+                <a href="/paketkuliah-detail-form/{{ $paket->id }}/{{ $paket->prodi_id }}" class="btn btn-xs btn-success" title="Tambah Data">
                     <i class="bi bi-plus"></i> Tambah Data
-                </button>
+                </a>
                 <table class="table table-striped" id="table1">
                     <thead>
                         <tr>
