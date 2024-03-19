@@ -23,12 +23,15 @@
                         <tr>
                             <th width="15%">No.</th>
                             <th>Program Studi</th>
+                            <th>Kode Mata Kuliah</th>
                             <th>Mata Kuliah</th>
                             <th>SKS</th>
+                            <th>Nilai Minimal</th>
+                            <th>Kompetensi</th>
                             <th width="15%">
-                                <button id="add" class="btn btn-xs btn-success addData" title="Tambah Data">
+                                <a href="/matkul/create" class="btn btn-xs btn-success addData" title="Tambah Data">
                                     <i class="bi bi-plus"></i> Add Data
-                                </button>
+                                </a>
                             </th>
                         </tr>
                     </thead>
@@ -59,10 +62,19 @@
                         data: 'prodi.nama_prodi'
                     },
                     {
+                        data: 'kode'
+                    },
+                    {
                         data: 'mata_kuliah'
                     },
                     {
                         data: 'sks'
+                    },
+                    {
+                        data: 'min_nilai'
+                    },
+                    {
+                        data: 'kompetensi'
                     },
                     {
                         data: 'aksi',
@@ -70,50 +82,6 @@
                     },
                 ],
                 destroy: true,
-            });
-
-            $('#add').click(function () {
-                $('#modal-title').html('Tambah Data Mata Kuliah');
-                $('#modal').modal('show');
-            });
-
-            $('#save').click(function () {
-                var form = $('#form'),
-                    data = form.serializeArray();
-                data.push({ name: '_token', value: '{{ csrf_token() }}' });
-                $('.spinner').css('display', 'block');
-                $(this).css('display', 'none');
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "/matkul",
-                    type: 'POST',
-                    data: data,
-                    success: function (result) {
-                        if (result.success) {
-                            successMsg(result.success)
-                            $('.spinner').css('display', 'none');
-                            $('#save').css('display', 'block');
-                            $('#modal').modal('hide');
-                            $('#form').find('input').val('');
-                            $('#table1').DataTable().ajax.reload();
-                        } else {
-                            $('.spinner').css('display', 'none');
-                            $('#save').css('display', 'block');
-                            $.each(result.errors, function (key, value) {
-                                errorMsg(value)
-                            });
-                        }
-                    },
-                    complete: function () {
-                        var newToken = $('meta[name="csrf-token"]').attr('content');
-                        $('input[name="_token"]').val(newToken);
-                    }
-                });
             });
         }).on('click','.editData',function(){
             $.ajax({

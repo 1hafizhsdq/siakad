@@ -25,7 +25,7 @@ class MatkulController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) {
                 return '
-                    <a href="javascript:void(0)" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning editData" title="Edit Data">
+                    <a href="/matkul/'.$data->id.'/edit" id="btn-edit" data-id="'.$data->id.'" class="btn btn-xs btn-warning" title="Edit Data">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     <a href="javascript:void(0)" id="btn-delete" data-id="'.$data->id.'" class="btn btn-xs btn-danger deleteData" title="Hapus Data">
@@ -39,7 +39,10 @@ class MatkulController extends Controller
 
     public function create()
     {
-        //
+        $data['title'] = "Form Mata Kuliah";
+        $data['prodis'] = Prodi::get();
+
+        return view('matkul.form',$data);
     }
 
     public function store(Request $request)
@@ -62,6 +65,9 @@ class MatkulController extends Controller
                         'prodi_id' => $request->prodi_id,
                         'mata_kuliah' => $request->mata_kuliah,
                         'sks' => $request->sks,
+                        'kode' => $request->kode,
+                        'min_nilai' => $request->min_nilai,
+                        'kompetensi' => $request->kompetensi,
                     ]
                 );
     
@@ -79,9 +85,11 @@ class MatkulController extends Controller
 
     public function edit($id)
     {
-        $data = Matkul::find($id);
+        $data['title'] = "Form Mata Kuliah";
+        $data['prodis'] = Prodi::get();
+        $data['matkul'] = Matkul::find($id);
 
-        return response()->json($data);
+        return view('matkul.form',$data);
     }
 
     public function update(Request $request, Matkul $matkul)
