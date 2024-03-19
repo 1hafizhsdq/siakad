@@ -189,7 +189,7 @@
                                                     </span>
                                                 @enderror
                                                 <div class="col-md-4 form-group">
-                                                    <input type="date" id="tgl_lahir" class="form-control @error('tgl_lahir') is-invalid @enderror" name="tgl_lahir">
+                                                    <input type="date" id="tgl_lahir" onkeypress="return isNumber(event) class="form-control @error('tgl_lahir') is-invalid @enderror" name="tgl_lahir">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="jenis_kelamin">Jenis Kelamin</label>
@@ -226,7 +226,7 @@
                                                     </span>
                                                 @enderror
                                                 <div class="col-md-8 form-group">
-                                                    <input type="text" id="telp" class="form-control @error('telp') is-invalid @enderror" name="telp"
+                                                    <input type="text" id="telp" onkeypress="return isNumber(event) class="form-control @error('telp') is-invalid @enderror" name="telp"
                                                         value="{{ Auth::user()->telp }}">
                                                 </div>
                                                 <div class="col-md-4">
@@ -250,7 +250,7 @@
                                                     </span>
                                                 @enderror
                                                 <div class="col-md-8 form-group">
-                                                    <input type="text" id="nik" class="form-control @error('nik') is-invalid @enderror" name="nik"
+                                                    <input type="text" id="nik" onkeypress="return isNumber(event) class="form-control @error('nik') is-invalid @enderror" name="nik"
                                                         onkeypress="return isNumber(event)">
                                                 </div>
                                                 <div class="col-md-4">
@@ -262,7 +262,7 @@
                                                     </span>
                                                 @enderror
                                                 <div class="col-md-8 form-group">
-                                                    <input type="text" id="nisn" class="form-control @error('nisn') is-invalid @enderror" name="nisn"
+                                                    <input type="text" id="nisn" onkeypress="return isNumber(event) class="form-control @error('nisn') is-invalid @enderror" name="nisn"
                                                         onkeypress="return isNumber(event)">
                                                 </div>
                                                 <div class="col-md-4">
