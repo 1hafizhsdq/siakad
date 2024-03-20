@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgamaController;
 use App\Http\Controllers\AkunController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\HerregistrasiController;
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
     // Modul Role
     Route::resource('/role', RoleController::class);
     Route::get('/role-list', [RoleController::class, 'list'])->name('role-list');
+
+    // Modul Role
+    Route::resource('/agama', AgamaController::class);
+    Route::get('/agama-list', [AgamaController::class, 'list'])->name('agama-list');
     
     // Modul Menu
     Route::resource('/menu', MenuController::class);
