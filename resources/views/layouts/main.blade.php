@@ -138,10 +138,10 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                @if ($user->foto == null)
+                                                @if (Auth::user()->foto == null)
                                                     <img src="{{ asset('dist') }}/assets/compiled/jpg/1.jpg">
                                                 @else
-                                                    <img src="{{ asset('foto') }}/{{ $user->foto }}">
+                                                    <img src="{{ asset('foto') }}/{{ Auth::user()->foto }}">
                                                 @endif
                                             </div>
                                         </div>
