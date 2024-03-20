@@ -138,7 +138,11 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                <img src="{{ asset('dist') }}/assets/compiled/jpg/1.jpg">
+                                                @if ($user->foto == null)
+                                                    <img src="{{ asset('dist') }}/assets/compiled/jpg/1.jpg">
+                                                @else
+                                                    <img src="{{ asset('foto') }}/{{ $user->foto }}">
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

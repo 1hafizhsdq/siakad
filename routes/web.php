@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
     // Modul Akun Saya
     Route::get('/akun', [AkunController::class, 'index'])->name('akun');
     Route::post('/change-password', [AkunController::class, 'changePassword'])->name('change-password');
+    Route::post('/change-foto', [AkunController::class, 'changeFoto'])->name('change-foto');
     
     // Modul User
     Route::resource('/user', UserController::class);

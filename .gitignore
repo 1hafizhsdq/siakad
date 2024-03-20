@@ -6,6 +6,7 @@
 /public/ijazah
 /public/pembayaran_pendaftaran
 /public/herregistrasi
+/public/foto
 /storage/*.key
 /vendor
 .env

@@ -3,6 +3,11 @@
 @section('title', $title)
 
 @push('css')
+<style>
+    .editFoto {
+        margin-left: 7rem !important;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -17,17 +22,52 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-2xl">
-                                    <img src="{{ asset('dist') }}/assets/compiled/jpg/1.jpg" alt="Avatar">
+                                    @if ($user->foto == null)
+                                        <img src="{{ asset('dist') }}/assets/compiled/jpg/1.jpg" alt="Avatar">
+                                    @else
+                                        <img src="{{ asset('foto') }}/{{ $user->foto }}" alt="Avatar">
+                                    @endif
                                 </div>
-    
+                                <button type="button" class="btn btn-sm btn-warning editFoto" title="Edit Foto">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
                                 <h3 class="mt-3">{{ $user->nama }}</h3>
                                 <p class="text-small">{{ $user->role->role }}</p>
+                                <form id="form-foto" style="display: none;">
+                                    @csrf
+                                    <div class="row mt-5">
+                                        <div class="col-md-2">
+                                            <label for="foto">Foto</label>
+                                        </div>
+                                        <div class="col-md-10 form-group">
+                                            <input type="file"
+                                                class="image-preview-filepond"
+                                                id="foto" name="foto">
+                                                <input type="hidden" name="id_foto" value="{{ $user->id }}">
+                                            <small>File bertipe jpg/jpeg/png, maksimal berukuran 2MB</small>
+                                        </div>
+                                    </div>
+                                    <a href="#" id="close-foto" class="btn btn-light-secondary">
+                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                        <span class="d-none d-sm-block">Close</span>
+                                    </a>
+                                    <button id="save-foto" type="button" class="btn btn-success">
+                                        Simpan Perubahan
+                                    </button>
+                                    <button class="btn btn-success spinner" id="loading" style="display: none;" type="button" disabled="">
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-8">
                     <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Ubah Data Diri</h5>
+                        </div>
                         <div class="card-body">
                             <form id="form">
                                 @csrf
@@ -230,6 +270,48 @@
                     }
                 });
             });
+
+            $('#save-foto').click(function () {
+                var form = $('#form-foto')[0],
+                    data = new FormData(form);
+
+                $('.spinner').css('display', 'block');
+                $(this).css('display', 'none');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "/change-foto",
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function (result) {
+                        if (result.success) {
+                            successMsg(result.success)
+                            $('.spinner').css('display', 'none');
+                            $('#save-foto').css('display', 'block');
+                            $('#form-foto').find('input').val('');
+                            setInterval(function () {
+                                location.reload();
+                            }, 2000);
+                        } else {
+                            $('.spinner').css('display', 'none');
+                            $('#save-foto').css('display', 'block');
+                            $.each(result.errors, function (key, value) {
+                                errorMsg(value)
+                            });
+                        }
+                    }
+                });
+            });
+        }).on('click','.editFoto',function(){
+            $('#form-foto').css('display','block')
+        }).on('click','#close-foto',function(){
+            $('#form-foto').css('display','none')
         });
     </script>
 @endpush

@@ -46,4 +46,33 @@ class AkunController extends Controller
             }
         }
     }
+
+    public function changeFoto(Request $request){
+        $validator = Validator::make($request->all(), [
+            'foto' => 'required|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'foto.required' => 'Foto tidak boleh kosong!',
+            'foto.mimes' => 'Foto harus berformat JPG,JPEG,PNG!',
+            'foto.max' => 'Foto maksimal berukuran 2MB!',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        if ($request->hasfile('foto')) {
+            $fileFoto = round(microtime(true) * 1000).'.' . $request->foto->extension();
+            $request->foto->move(storage_path('app/foto/'), $fileFoto);
+        }
+
+        try {
+            User::where('id',$request->id_foto)
+            ->update([
+                'foto' => $fileFoto,
+            ]);
+            return response()->json([ 'success' => 'Berhasil menyimpan data.']);
+        } catch (\Throwable $th) {
+            return response()->json(['errors' => ['Gagal menyimpan data ']]);
+        }
+    }
 }
