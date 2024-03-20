@@ -91,34 +91,30 @@ class UserController extends Controller
             'role_id' => 'required',
             'nama' => 'required',
             'email' => 'required|email|unique:users,email,'.$request->id,
-            'telp' => 'required|unique:users,telp,'.$request->id,
-            'alamat' => 'required',
-            'jenis_kelamin' => 'required',
-            'tempat_lahir' => 'required',
-            'tgl_lahir' => 'required',
+            'telp' => 'nullable|unique:users,telp,'.$request->id,
         ], [
             'role_id.required' => 'Role tidak boleh kosong!',
             'nama.required' => 'Nama tidak boleh kosong!',
             'email.required' => 'Email tidak boleh kosong!',
             'email.email' => 'Email tidak sesuai!',
             'email.unique' => 'Email sudah terdaftar!',
-            'telp.required' => 'Telepon tidak boleh kosong!',
             'telp.unique' => 'Telepon sudah terdaftar!',
-            'alamat.required' => 'Alamat tidak boleh kosong!',
-            'jenis_kelamin.required' => 'Jenis Kelamin tidak boleh kosong!',
-            'tempat_lahir.required' => 'Tempat Lahir tidak boleh kosong!',
-            'tgl_lahir.required' => 'Tanggal Lahir tidak boleh kosong!',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         } else {
             try {
-                if (substr($request->telp, 0, 1) === '0') {
-                    $telp = '62' . substr($request->telp, 1);
+                if(!empty($request->telp)){
+                    if (substr($request->telp, 0, 1) === '0') {
+                        $telp = '62' . substr($request->telp, 1);
+                    }else{
+                        $telp = $request->telp;
+                    }
                 }else{
-                    $telp = $request->telp;
+                    $telp = null;
                 }
+
                 User::updateOrCreate(
                     ['id' =>  $request->id],
                     [
@@ -132,6 +128,10 @@ class UserController extends Controller
                         'tempat_lahir' => strtoupper($request->tempat_lahir),
                         'tgl_lahir' => $request->tgl_lahir,
                         'password' => Hash::make($request->email),
+                        'nidn' => $request->nidn,
+                        'gelar_depan' => $request->gelar_depan,
+                        'gelar_belakang' => $request->gelar_belakang,
+                        'agama_id' => $request->agama_id,
                     ]
                 );
     

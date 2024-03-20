@@ -32,9 +32,13 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <label for="no_induk">NIP/NIM </label>
+                                    <label for="no_induk">NIP/NIM/NIY </label>
                                     <div class="form-group">
-                                        <input id="no_induk" name="no_induk" type="text" value="{{ $user->no_induk ?? '' }}" placeholder="NIP/NIM" class="form-control" onkeypress="return isNumber(event)">
+                                        <input id="no_induk" name="no_induk" type="text" value="{{ $user->no_induk ?? '' }}" placeholder="NIP/NIM/NIY" class="form-control" onkeypress="return isNumber(event)">
+                                    </div>
+                                    <label for="nidn" class="nidn" style="display: none;">NIDN </label>
+                                    <div class="form-group">
+                                        <input id="nidn" name="nidn" style="display: none;" type="text" value="{{ $user->nidn ?? '' }}" placeholder="NIDN" class="form-control nidn" onkeypress="return isNumber(event)">
                                     </div>
                                     <label for="nama">Nama </label>
                                     <div class="form-group">
@@ -44,11 +48,11 @@
                                     <div class="form-group">
                                         <input id="email" name="email" value="{{ $user->email ?? '' }}" type="text" placeholder="Email" class="form-control">
                                     </div>
-                                    <label for="telp">Telepon (WA) </label>
+                                    <label for="telp" class="telp" style="display: none;">Telepon (WA) </label>
                                     <div class="form-group">
-                                        <input id="telp" name="telp" type="text" value="{{ $user->telp ?? '' }}" placeholder="Telepon (WA)" class="form-control" onkeypress="return isNumber(event)">
+                                        <input id="telp" name="telp" type="text" value="{{ $user->telp ?? '' }}" style="display: none;" placeholder="Telepon (WA)" class="form-control telp" onkeypress="return isNumber(event)">
                                     </div>
-                                    <label for="alamat">Alamat </label>
+                                    {{-- <label for="alamat">Alamat </label>
                                     <div class="form-group">
                                         <input id="alamat" name="alamat" value="{{ $user->alamat ?? '' }}" type="text" placeholder="Alamat" class="form-control">
                                     </div>
@@ -70,7 +74,7 @@
                                                 <input id="tgl_lahir" name="tgl_lahir" value="{{ $user->tgl_lahir ?? '' }}" type="date" class="form-control">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="modal-footer">
                                     <a href="/user" class="btn btn-light-secondary">
@@ -122,7 +126,9 @@
                             $('#save').css('display', 'block');
                             $('#modal').modal('hide');
                             $('#form').find('input').val('');
-                            window.location.replace('/user');
+                            setInterval(function () {
+                                window.location.replace('/user');
+                            }, 2000);
                         } else {
                             $('.spinner').css('display', 'none');
                             $('#save').css('display', 'block');
@@ -137,6 +143,19 @@
                     }
                 });
             });
+        }).on('change','#role_id',function(){
+            var role = $(this).val();
+            
+            if(role == 3){
+                $('.nidn').css('display','block');
+                $('.telp').css('display','none');
+            }else if(role == 4){
+                $('.telp').css('display','block');
+                $('.nidn').css('display','none');
+            }else{
+                $('.telp').css('display','none');
+                $('.nidn').css('display','none');
+            }
         });
     </script>
 @endpush
