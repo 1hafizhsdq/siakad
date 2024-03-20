@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,8 @@ class AkunController extends Controller
     public function index()
     {
         $data['title'] = 'Akun Saya';
-        $data['user'] = User::find(Auth::user()->id);
+        $data['user'] = User::with('role')->find(Auth::user()->id);
+        $data['agamas'] = Agama::get();
         
         return view('akun.index',$data);
     }

@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function pendaftaran(){
         return $this->hasMany(Pendaftaran::class, 'user_id');
     }
+    
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 }
