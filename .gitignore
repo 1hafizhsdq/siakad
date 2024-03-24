@@ -7,6 +7,7 @@
 /public/pembayaran_pendaftaran
 /public/herregistrasi
 /public/foto
+/public/materi
 /storage/*.key
 /vendor
 .env

@@ -12,6 +12,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaketMatkulController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PerkuliahanController;
+use App\Http\Controllers\PertemuanController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoleMenuController;
@@ -128,4 +129,12 @@ Route::middleware(['auth'])->group(function () {
     // Modul Perkuliahan
     Route::resource('/perkuliahan', PerkuliahanController::class);
     Route::get('/perkuliahan-list/{user}', [PerkuliahanController::class, 'list'])->name('perkuliahan-list');
+    
+    // Modul Pertemuan
+    Route::resource('/pertemuan', PertemuanController::class);
+    Route::get('/pertemuan-list/{user}/{tahunajaran?}/{prodi?}', [PertemuanController::class, 'list'])->name('pertemuan-list');
+    Route::get('/pertemuan-matkul/{prodi}', [PertemuanController::class, 'getMatkul'])->name('pertemuan-matkul');
+    Route::get('/pertemuan-jadwal/{matkul}/{dosen}', [PertemuanController::class, 'getJadwal'])->name('pertemuan-jadwal');
+    Route::get('/pertemuan-jadwal-find/{jadwal}', [PertemuanController::class, 'getJadwalFind'])->name('pertemuan-jadwal-find');
+    Route::get('/pertemuan-del-materi/{pertemuan}', [PertemuanController::class, 'delMateri'])->name('pertemuan-del-materi');
 });
