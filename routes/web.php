@@ -6,6 +6,7 @@ use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\HerregistrasiController;
 use App\Http\Controllers\JadwalKuliahController;
 use App\Http\Controllers\JamPerkuliahanController;
+use App\Http\Controllers\JenisPerkuliahanController;
 use App\Http\Controllers\MatkulController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PaketMatkulController;
@@ -80,6 +81,10 @@ Route::middleware(['auth'])->group(function () {
     // Modul Matkul
     Route::resource('/matkul', MatkulController::class);
     Route::get('/matkul-list', [MatkulController::class, 'list'])->name('matkul-list');
+    
+    // Modul Jenis Perkuliahan
+    Route::resource('/jenisperkuliahan', JenisPerkuliahanController::class);
+    Route::get('/jenisperkuliahan-list', [JenisPerkuliahanController::class, 'list'])->name('jenisperkuliahan-list');
     
     // Modul Pendaftaran
     Route::resource('/pendaftaran', PendaftaranController::class);
