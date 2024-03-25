@@ -292,7 +292,7 @@
             });
         }).on('click', '#del-materi', function(){
             $.ajax({
-                url: "/pertemuan-del-materi/{{ $pertemuan->id }}",
+                url: "/pertemuan-del-materi/{{ $pertemuan->id ?? '' }}",
                 type: 'GET',
                 success: function(result) {
                     setInterval(function () {
