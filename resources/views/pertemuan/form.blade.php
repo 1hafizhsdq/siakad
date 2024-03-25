@@ -134,7 +134,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" name="ruangan_id" id="ruangan_id" value="{{ $pertemuan->ruangan_id }}">
+                            <input type="hidden" name="ruangan_id" id="ruangan_id" value="{{ $pertemuan->ruangan_id ?? '' }}">
                             <hr>
                             <div class="col-md-4">
                                 <label for="tgl_pertemuan">Tanggal Pertemuan <small class="text-danger">*</small></label>
